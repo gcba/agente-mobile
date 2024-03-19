@@ -89,7 +89,7 @@ N/A
 N/A
 
 ## Requerimientos de red
-
+La aplicación debe tener conectividad a internet. 
 La aplicación debe tener conectividad a internet.
 
 ## Ruta de acceso

@@ -1,4 +1,4 @@
-## Descripciíon
+## Descripción
 
 El agente permite la creación de una identidad digital auto-soberana. 
 También crea, recibe y comparte credenciales verificables.
@@ -12,8 +12,46 @@ La aplicación cuenta con las siguientes tecnologías:
 - React Native 0.69.3
 - Expo 5.3.0
 - Typescript 2.0.4
+## Arquitectura
+[Diagrama](https://docs.quarkid.org/Arquitectura/arquitectura)
 
-## Diagramas
+## Documentación
+[Link](https://docs.quarkid.org/Arquitectura/componentes)
+
+
+## Configuraración de entorno local
+
+Clonar el repositorio
+
+- Instalar java sdk v14.*
+- Configurar variables de entorno de java [Ver](https://reactnative.dev/docs/environment-setup)
+    - JAVA_HOME
+    - PATH
+
+- Instalar Android Studio
+- Generar un emulador en Android Studio
+- Abrir el proyecto con el editor seleccionado
+- Abrir una terminal y ejecutar:
+
+Instalar dependencias
+
+```bash
+yarn custom quarkid
+yarn postinstall
+```
+
+- Modificar:
+El archivo: node_modules\react-native-os\android\build.gradle 
+Linea 47: cambiar la 'compilation' por 'implentation'
+
+Iniciar la app
+
+```bash
+yarn android
+```
+
+
+
 
 ## Licencia
 

@@ -77,11 +77,14 @@ La aplicación debe tener conectividad a internet.
 N/A 
 
 ## Licencia
-Copyright [2023] [Gobierno de la Ciudad de Buenos Aires]
+Derechos de autor © 2023 Gobierno de la Ciudad de Buenos Aires
+
 Licenciado bajo la Licencia Apache, Versión 2.0 (la "Licencia");
-no puede utilizar este archivo excepto de conformidad con la Licencia.
-Puede obtener una copia de la Licencia en [LICENSE](http://www.apache.org/licenses/LICENSE-2.0). A menos que lo exija la ley aplicable o se acuerde por escrito, el software
+usted no puede utilizar este archivo excepto en cumplimiento con la Licencia.
+Puede obtener una copia de la Licencia en
+http://www.apache.org/licenses/LICENSE-2.0.
+A menos que lo requiera la ley aplicable o se acuerde por escrito, el software
 distribuido bajo la Licencia se distribuye "TAL CUAL",
-SIN GARANTÍAS NI CONDICIONES DE NINGÚN TIPO, ya sean expresas o implícitas.
-Consulte la Licencia para conocer el idioma específico que rige los permisos y
+SIN GARANTÍAS O CONDICIONES DE NINGÚN TIPO, ya sean expresas o implícitas.
+Consulte la Licencia para el idioma específico que rige los permisos y
 limitaciones bajo la Licencia.

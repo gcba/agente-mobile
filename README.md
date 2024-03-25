@@ -13,7 +13,7 @@ La aplicación cuenta con las siguientes tecnologías:
 - Expo 5.3.0
 - Typescript 2.0.4
 ## Arquitectura
-[Diagrama](https://docs.quarkid.org/Arquitectura/arquitectura/)
+[Diagrama](https://docs.quarkid.org/Arquitectura/)
 
 ## Documentación
 [Link](https://docs.quarkid.org/Arquitectura/componentes/)

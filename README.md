@@ -4,6 +4,15 @@ El agente permite la creación de una identidad digital auto-soberana.
 También crea, recibe y comparte credenciales verificables.
 Tener contactos de confianza, DIDs de organizaciones y gobiernos que sean públicos. Acceda a servicios de diferentes organizaciones de forma segura y estándar. Comunicarse con otros agentes u organizaciones de forma descentralizada, encriptada y autenticada.
 
+## Funcionalidades
+
+- Generación de DID (Generación de claves para recuperación, actualización, firma y transporte)
+- Almacenamiento de credenciales verificables
+- Almacenamiento de entidades conocidas
+- Manejo de protocolo WACI-DIDComm (con WACI-Interpreter)
+- Capacidad de presentación de credenciales
+- Importacion y Exportacion de DID.
+
 ## Tecnologías
 
 La aplicación cuenta con las siguientes tecnologías:
@@ -12,12 +21,12 @@ La aplicación cuenta con las siguientes tecnologías:
 - React Native 0.69.3
 - Expo 5.3.0
 - Typescript 2.0.4
+  
 ## Arquitectura
 [Diagrama](https://docs.quarkid.org/Arquitectura/)
 
 ## Documentación
 [Link](https://docs.quarkid.org/Arquitectura/componentes/)
-
 
 ## Configuraración de entorno local
 
@@ -36,7 +45,8 @@ Clonar el repositorio
 Instalar dependencias
 
 ```bash
-yarn custom quarkid
+cd source
+yarn 
 yarn postinstall
 ```
 
@@ -44,22 +54,15 @@ yarn postinstall
 El archivo: node_modules\react-native-os\android\build.gradle 
 Linea 47: cambiar la 'compilation' por 'implentation'
 
+## Variables de Entorno
+
+- Configura tus variables en el archivo /source/src/config/agent.ts
+
 Iniciar la app
 
 ```bash
 yarn android
 ```
-
-## Funcionalidades
-
-- Generación de DID (Generación de claves para recuperación, actualización, firma y transporte)
-- Almacenamiento de credenciales verificables
-- Almacenamiento de entidades conocidas
-- Manejo de protocolo WACI-DIDComm (con WACI-Interpreter)
-- Capacidad de presentación de credenciales
-- Importacion y Exportacion de DIDs
-
-## Variables de Entorno
 
 ### Generales
 

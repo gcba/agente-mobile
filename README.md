@@ -30,10 +30,12 @@ La aplicación cuenta con las siguientes tecnologías:
 
 ## Configuraración de entorno local
 
-Clonar el repositorio
+1. Clonar el repositorio
 
+Pre-requisitos:
 - Instalar java sdk v14.*
-- Configurar variables de entorno de java [Ver](https://reactnative.dev/docs/environment-setup)
+- Instalar el ambiente de desarollo [React](https://reactnative.dev/docs/environment-setup)
+- Configurar variables de entorno de Java:
     - JAVA_HOME
     - PATH
 
@@ -42,7 +44,7 @@ Clonar el repositorio
 - Abrir el proyecto con el editor seleccionado
 - Abrir una terminal y ejecutar:
 
-Instalar dependencias
+Instalar dependencias:
 
 ```bash
 cd source

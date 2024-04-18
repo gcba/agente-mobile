@@ -39,8 +39,8 @@ Pre-requisitos:
     - JAVA_HOME
     - PATH
 
-- Instalar Android Studio
-- Generar un emulador en Android Studio
+- Instalar Android Studio. *Se debe utilizar con la versión java sdk v14, mencionado en el primer paso.*
+- - Generar un emulador en Android Studio
 - Abrir el proyecto con el editor seleccionado
 - Abrir una terminal y ejecutar:
 

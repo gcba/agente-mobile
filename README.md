@@ -1,10 +1,23 @@
+## [Descripción](https://github.com/gcba/agente-mobile?tab=readme-ov-file#descripci%C3%B3n) y [Funcionalidades](https://github.com/gcba/agente-mobile/edit/master/README.md#funcionalidades)
+## [Tecnologías](https://github.com/gcba/agente-mobile?tab=readme-ov-file#tecnolog%C3%ADas)
+## [Arquitectura](https://docs.quarkid.org/Arquitectura/) y [Documentación](https://docs.quarkid.org/Arquitectura/componentes/)
+## Configuraciones:
+### 1. [Configuraración de entorno local](https://github.com/gcba/agente-mobile?tab=readme-ov-file#configuraraci%C3%B3n-de-entorno-local)
+### 2. [Variables de Entorno](https://github.com/gcba/agente-mobile?tab=readme-ov-file#variables-de-entorno)
+## [Licencia](https://github.com/gcba/agente-mobile?tab=readme-ov-file#licencia)
+
+
+
+
+
+-------------------------------------------------------------------------
+
 ## Descripción
 
 El agente permite la creación de una identidad digital auto-soberana. 
 También crea, recibe y comparte credenciales verificables.
 Tener contactos de confianza, DIDs de organizaciones y gobiernos que sean públicos. Acceda a servicios de diferentes organizaciones de forma segura y estándar. Comunicarse con otros agentes u organizaciones de forma descentralizada, encriptada y autenticada.
-
-## Funcionalidades
+### Funcionalidades
 
 - Generación de DID (Generación de claves para recuperación, actualización, firma y transporte)
 - Almacenamiento de credenciales verificables

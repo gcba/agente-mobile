@@ -34,7 +34,7 @@ La aplicación cuenta con las siguientes tecnologías:
 
 Pre-requisitos:
 - Instalar java sdk v14.*
-- Instalar el ambiente de desarollo [React](https://reactnative.dev/docs/environment-setup)
+- Instalar el ambiente de desarollo [React Native 0.69.3](https://reactnative.dev/docs/environment-setup)
 - Configurar variables de entorno de Java:
     - JAVA_HOME
     - PATH

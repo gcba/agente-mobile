@@ -1,4 +1,4 @@
-## [Descripción](https://github.com/gcba/agente-mobile?tab=readme-ov-file#descripci%C3%B3n) y [Funcionalidades](https://github.com/gcba/agente-mobile/edit/master/README.md#funcionalidades)
+## [Descripción](https://github.com/gcba/agente-mobile?tab=readme-ov-file#descripci%C3%B3n) y [Funcionalidades](https://github.com/gcba/agente-mobile?tab=readme-ov-file#descripci%C3%B3n)
 ## [Tecnologías](https://github.com/gcba/agente-mobile?tab=readme-ov-file#tecnolog%C3%ADas)
 ## [Arquitectura](https://docs.quarkid.org/Arquitectura/) y [Documentación](https://docs.quarkid.org/Arquitectura/componentes/)
 ## Configuraciones:

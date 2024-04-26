@@ -18,7 +18,7 @@
     "@expo/vector-icons": "^13.0.0",
     "@extrimian/agent": "0.9.0-17",
     "@extrimian/ami-agent-plugin": "^0.1.3",
-    "@extrimian/kms-core": "^1.3.0",
+    "@quarkid/kms-core": "^1.0.0",
     "@extrimian/kms-suite-bbsbls2020": "^1.1.1",
     "@extrimian/one-click-agent-plugin": "^0.2.0",
     "@gorhom/bottom-sheet": "^4",

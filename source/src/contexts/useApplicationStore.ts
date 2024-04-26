@@ -11,7 +11,7 @@ import {
     WACIProtocol,
     WebsocketClientTransport,
 } from '@extrimian/agent';
-import { IJWK, IKeyPair } from '@extrimian/kms-core';
+import { IJWK, IKeyPair } from '@quarkid/kms-core';
 import { OneClickPlugin } from '@extrimian/one-click-agent-plugin';
 import { NavigationProp } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';

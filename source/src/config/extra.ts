@@ -5,7 +5,7 @@ const extraConfig: IExtraConfig = {
         {
             title: 'Gobierno de la Ciudad de Buenos Aires',
             description: 'Emisión oficial de credenciales verificables del gobierno de la Ciudad de Buenos Aires',
-            url: 'https://issuer-ssi.buenosaires.gob.ar/',
+            url: 'https://applogin-hml.gcba.gob.ar/',
             style: {
                 thumbnail: {
                     uri: 'https://i.ibb.co/xgVj07X/image.png',

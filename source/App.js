@@ -15,7 +15,7 @@ import { AppProvider } from './src/contexts/AppContext';
 import './src/locale';
 import RootStack from './src/stacks/RootStack';
 import { theme as styles } from './src/theme';
-
+import LoadingScreen from './src/screens/LoadingScreen';
 const cacheFonts = (fonts) => {
     return fonts.map((font) => Font.loadAsync(font));
 };
@@ -65,20 +65,35 @@ const Providers = ({ children }) => {
 
 const App = () => {
     const [appIsReady, setAppIsReady] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // Manage loading state
 
     useEffect(() => {
-        const loadResourcesAndDataAsync = async () => {
+        async function loadResourcesAndDataAsync() {
             try {
                 SplashScreen.preventAutoHideAsync();
-                const fontAssets = cacheFonts([FontAwesome.font, Entypo.font, AntDesign.font, MaterialIcons.font, Ionicons.font]);
+                const fontAssets = cacheFonts([
+                    FontAwesome.font,
+                    Entypo.font,
+                    AntDesign.font,
+                    MaterialIcons.font,
+                    Ionicons.font,
+                    { 'Manrope-Bold': require('./src/assets/fonts/Manrope-Bold.ttf') },
+                    { 'Manrope-SemiBold': require('./src/assets/fonts/Manrope-SemiBold.ttf')},
+                    {'Manrope-Regular': require('./src/assets/fonts/Manrope-Regular.ttf')},
+                    {'Manrope-Medium': require('./src/assets/fonts/Manrope-Medium.ttf')},
+                    {'RobotoMono-Regular': require('./src/assets/fonts/RobotoMono-Regular.ttf')}
+
+                ]);
                 await Promise.all([...fontAssets]);
             } catch (e) {
                 console.warn(e);
             } finally {
                 setAppIsReady(true);
                 SplashScreen.hideAsync();
+                // Don't automatically set isLoading to false here if you want to show the video first
             }
-        };
+        }
+
         loadResourcesAndDataAsync();
         getNotificationPermissions();
     }, []);
@@ -89,9 +104,17 @@ const App = () => {
 
     return (
         <Providers>
-            <StatusBar barStyle={stylesConfig.style.statusBar} />
-            <RootStack />
-            <BottomLine />
+            <StatusBar backgroundColor={stylesConfig.style.primaryColor} barStyle={stylesConfig.style.statusBar} />
+            {/* {isLoading ? (
+                // Render the VideoScreen and pass a method to hide loading once video is done
+                <LoadingScreen onVideoEnd={() => setIsLoading(false)} />
+            ) : (
+                // Once loading is complete, proceed with the rest of your app
+                <> */}
+                    <RootStack />
+                    <BottomLine />
+                {/* </> */}
+            {/* )} */}
         </Providers>
     );
 };

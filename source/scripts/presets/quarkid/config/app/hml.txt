@@ -1,0 +1,2 @@
+name=QuarkID HML
+identifier=com.extrimian.quarkid.hml

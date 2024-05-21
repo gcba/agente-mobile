@@ -7,13 +7,22 @@ import styled, { useTheme } from 'styled-components/native';
 import { shallow } from 'zustand/shallow';
 import app from '../../../app.json';
 import i18n from '../../locale';
+import { Dimensions } from 'react-native';
 
 // Components
-import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import { AntDesign, Entypo, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { NavigationProp } from '@react-navigation/native';
-import { Alert, Share } from 'react-native';
+import { TouchableHighlight } from 'react-native';
 import BasicLayout from '../../components/BasicLayout';
 import { useApplicationStore } from '../../contexts/useApplicationStore';
+
+//Icons
+import ShareIDIcon from "../../assets/icons/ShareIDIcon"
+import BackupIcon from "../../assets/icons/BackupIcon"
+import FaqIcon from "../../assets/icons/FaqIcon"
+import TermsIcon from "../../assets/icons/TermsIcon"
+import PrivacyIcon from "../../assets/icons/PrivacyIcon"
+import ResetAppIcon from "../../assets/icons/ResetAppIcon"
 
 interface SettingsProps {
     navigation: NavigationProp<any>;
@@ -25,129 +34,113 @@ const Settings: FC<SettingsProps> = ({ navigation }) => {
     const { did, reset } = useApplicationStore((state) => ({ did: state.did, reset: state.reset }), shallow);
 
     const [isLoading, setIsLoading] = useState(false);
+    const [restartBtnPress, isRestartBtnPress] = useState(false);
 
     const items = [
+        {
+            title: i18n.t('settingsScreen.share.semiTitle'),
+            body: i18n.t('settingsScreen.share.description'),
+            onPress: async () => {
+                navigation.navigate('ShareDID');
+            },
+            icon: <ShareIDIcon color={theme.color.font}/>,
+        },
         {
             title: i18n.t('settingsScreen.export.title'),
             body: i18n.t('settingsScreen.export.description'),
             onPress: async () => {
-                setIsLoading(true);
-                try {
-                    const exportedKeys = await did.export();
-                    const fileUri = FileSystem.documentDirectory + `keys-backup`;
-                    await FileSystem.writeAsStringAsync(fileUri, JSON.stringify(exportedKeys));
-                    await Sharing.shareAsync(fileUri);
-                } catch (error) {
-                    console.log(error);
-                }
-                setIsLoading(false);
+                navigation.navigate('ExportKeys');
             },
-            icon: <EntypoStyled name="export" size={20} color={theme.color.secondary} />,
+            icon: <BackupIcon color={theme.color.font}/>,
         },
-
         {
-            title: i18n.t('settingsScreen.share.title'),
-            body: i18n.t('settingsScreen.share.description'),
-            onPress: async () => {
-                setIsLoading(true);
-                try {
-                    const currentDid = await did.current();
-                    const message = currentDid.isLongDID() ? currentDid.value.slice(0, currentDid.value.lastIndexOf(':')) : currentDid.value;
-
-                    const result = await Share.share({
-                        message,
-                    });
-                    if (result.action === Share.sharedAction) {
-                        if (result.activityType) {
-                        } else {
-                        }
-                    } else if (result.action === Share.dismissedAction) {
-                    }
-                } catch (error) {
-                    alert(error.message);
-                }
-                setIsLoading(false);
-            },
-            icon: <EntypoStyled name="share" size={20} color={theme.color.secondary} />,
-        },
-
-        {
-            title: i18n.t('settingsScreen.config.title'),
+            title: i18n.t('settingsScreen.faq.title'),
             body: i18n.t('settingsScreen.config.description'),
             onPress: async () => {
-                navigation.navigate('Configuration');
+                navigation.navigate('FAQ');
             },
 
-            icon: <MaterialIconsStyled name="settings-applications" size={20} color={theme.color.secondary} />,
+            icon: <FaqIcon color={theme.color.font}/>,
         },
-
         {
-            title: i18n.t('settingsScreen.reset.title'),
+            title: i18n.t('settingsScreen.reset.fullTitle'),
             body: i18n.t('settingsScreen.reset.description'),
             onPress: async () => {
-                Alert.alert(i18n.t('settingsScreen.reset.title'), i18n.t('settingsScreen.reset.message'), [
-                    { text: i18n.t('cancel') },
-                    {
-                        text: i18n.t('settingsScreen.reset.ok'),
-                        onPress: async () => {
-                            reset();
-                        },
-                    },
-                ]);
+                navigation.navigate('ResetApp');
             },
             warning: true,
-            icon: <MaterialIconsStyled name="delete" size={20} color={'red'} />,
+            icon: <ResetAppIcon />,
         },
     ];
 
+    const bkcolor = app.expo.name.includes("QuarkID") ? '#2D0060' : theme.color.white;
+
     return (
         <BasicLayout
-            title={i18n.t('settingsScreen.title')}
             contentStyle={{
                 paddingTop: 10,
                 paddingBottom: 10,
                 justifyContent: 'space-between',
+                backgroundColor: theme.color.primary
             }}
             onlyTitle
             onBack={() => navigation.goBack()}
         >
             <ItemWrapper>
-                {items.map((item, index) => (
-                    <Item key={index} onPress={item.onPress} warning={item.warning} disabled={isLoading}>
-                        <IconWrapper>{item.icon}</IconWrapper>
+                {items.filter((i) => !i.warning).map((item, index) => (
+                    <Item key={index} onPress={item.onPress} underlayColor={theme.color.tertiary} disabled={isLoading} theme={theme}>
                         <TextWrapper>
-                            {item.title && <Title warning={item.warning}>{item.title}</Title>}
-                            {item.body && <Body warning={item.warning}>{item.body}</Body>}
+                            <IconWrapper>{item.icon}</IconWrapper>
+                            {item.title && <Title>{item.title}</Title>}
                         </TextWrapper>
                     </Item>
                 ))}
             </ItemWrapper>
-            <Version>
-                {app.expo.name} v{app.expo.version}
-            </Version>
+            <BottomWrapper>
+                <ItemWrapper>
+                    {items.filter((i) => i.warning).map((item, index) => (
+                        <Item key={index} onPress={item.onPress} warning={item.warning}
+                            disabled={isLoading} underlayColor={"#C93B3B"} theme={theme}
+                            onShowUnderlay={() => isRestartBtnPress(true)} onHideUnderlay={() => isRestartBtnPress(false)}>
+                            <TextWrapper>
+                                <IconWrapper>{item.icon}</IconWrapper>
+                                {item.title && <Title btnPressed={restartBtnPress} warning={item.warning}>{item.title}</Title>}
+                            </TextWrapper>
+                        </Item>
+                    ))}
+                </ItemWrapper>
+                <Version>
+                    {app.expo.name} v{app.expo.version}
+                </Version>
+            </BottomWrapper>
         </BasicLayout>
     );
 };
 
-const EntypoStyled = styled(Entypo)``;
-
-const MaterialIconsStyled = styled(MaterialIcons)``;
-
 const ItemWrapper = styled.View`
+    align-items: center;
+    width: 100%;
+    margin-top: 30px;
+`;
+
+const BottomWrapper = styled.View`
     width: 100%;
 `;
 
-const Item = styled.TouchableOpacity`
-    width: 100%;
+const Item = styled(TouchableHighlight)`
+    width: ${Dimensions.get('window').width - 64}px;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px 14px 10px;
-    background-color: ${(props) => (props.warning ? transparentize(0.95, 'red') : 'transparent')};
+    padding: 8px 16px;
+    margin-bottom: 16px;
+    border-radius: 12px;
+    background-color: white;
 `;
 
 const Version = styled.Text`
     font-size: 12px;
+    font-family: Manrope-SemiBold
     color: ${transparentize(0.5, 'black')};
     padding-right: 10px;
     width: 100%;
@@ -155,25 +148,32 @@ const Version = styled.Text`
 `;
 
 const IconWrapper = styled.View`
-    width: 10%;
-    background-color: 'red';
+    width: 44px;
+    height: 44px;
+    padding: 8px;
     justify-content: center;
     align-items: center;
+    margin-right: 8px;
 `;
 
 const TextWrapper = styled.View`
-    width: 90%;
-    padding: 0 10px;
-    justify-content: center;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
 `;
 
 const Title = styled.Text`
-    font-size: 16px;
-    color: ${(props) => (props.warning ? 'red' : props.theme.color.secondary)};
+    font-family: Manrope-Medium;
+    font-size: 18px;
+    font-style: normal;
+    line-height: 22.5px;
+    letter-spacing: 0.18px;
+    color: ${(props) => (props.warning ? (props.btnPressed ? 'white' : '#C93B3B') : props.theme.color.secondary)};
 `;
 
 const Body = styled.Text`
     font-size: 14px;
+    font-family: Manrope-SemiBold
     color: ${transparentize(0.4, 'black')};
 `;
 

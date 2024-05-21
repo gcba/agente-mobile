@@ -28,7 +28,7 @@ const EntityItem = ({ data, navigation }) => {
                     borderRadius: 5,
                     zIndex: 1,
                 }}
-                colors={[transparentize(0.0, data.style?.background.color), transparentize(0.3, data.style?.background.color)]}
+                colors={[transparentize(0.0, data.style?.background?.color), transparentize(0.3, data.style?.background?.color)]}
                 start={{ x: 0, y: 0 }}
                 end={{ x: 1, y: 1 }}
             />
@@ -41,7 +41,7 @@ const EntityItem = ({ data, navigation }) => {
                     bottom: 0,
                     borderRadius: 5,
                 }}
-                source={{ uri: data.style?.hero?.uri }}
+                source={{ uri: data.style?.hero?.uri, cache: 'force-cache' }}
             />
             <View
                 style={{
@@ -51,6 +51,17 @@ const EntityItem = ({ data, navigation }) => {
                     zIndex: 2,
                 }}
             >
+                <Image
+                    source={{
+                        uri: data.style?.thumbnail?.uri || 'https://upload.wikimedia.org/wikipedia/commons/c/c6/No_Logo.png', cache: 'force-cache'
+                    }}
+                    style={{
+                        height: 40,
+                        width: '100%',
+                        marginBottom: 5,
+                    }}
+                    resizeMode="contain"
+                />
                 <Text
                     style={{
                         color: data.style?.text?.color,
@@ -64,17 +75,6 @@ const EntityItem = ({ data, navigation }) => {
                 >
                     {data.title}
                 </Text>
-                <Image
-                    source={{
-                        uri: data.style?.thumbnail?.uri || 'https://upload.wikimedia.org/wikipedia/commons/c/c6/No_Logo.png',
-                    }}
-                    style={{
-                        height: 40,
-                        width: '100%',
-                        marginBottom: 5,
-                    }}
-                    resizeMode="contain"
-                />
 
                 {data.subtitle && (
                     <Text

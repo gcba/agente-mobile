@@ -135,10 +135,10 @@ export const AppProvider = ({ children }) => {
 
     return (
         <Context.Provider value={{}}>
-            {state === StateType.UNAUTHENTICATED && <Authenticate title={i18n.t('authentication')} onAuthenticate={pin.authenticate} />}
+            {/* {state === StateType.UNAUTHENTICATED && <Authenticate />} */}
             {isLoading && <Loading />}
             {isConnected && (
-                <Waiting
+                <Loading
                     closeConnection={() => {
                         setIsConnected(false);
                         websocketTransport.dispose();

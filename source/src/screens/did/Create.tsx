@@ -17,8 +17,9 @@ import stylesConfig from '../../config/styles';
 import { useApplicationStore } from '../../contexts/useApplicationStore';
 import i18n from '../../locale';
 import { Layout } from '../../styled-components/Layouts';
-
-interface CreateDidProps {}
+import CreateAccountIcon from "../../assets/icons/CreateAccountIcon"
+import Popup from '../../components/Popup';
+interface CreateDidProps { }
 
 const CreateDid: FC<CreateDidProps> = () => {
     const theme = useTheme();
@@ -31,6 +32,10 @@ const CreateDid: FC<CreateDidProps> = () => {
     const [didMethods, setDidMethods] = useState<string[]>([agentConfig.didMethod]);
     const multiMethod = useMemo(() => stylesConfig.features.find((e) => e.name === 'multi-method'), []);
     const [didMethodSelected, setDidMethodSelected] = useState(() => (!multiMethod ? agentConfig.didMethod : ''));
+    const [PopupVisible, setPopupVisible] = useState(false);
+    const [PopupTitle, setPopupTitle] = useState('Error');
+    const [PopupDescription, setPopupDescription] = useState(i18n.t('errorDescription'));
+
 
     const { setIsLoading } = useApplicationStore((state) => ({ setIsLoading: state.setIsLoading }), shallow);
 
@@ -43,7 +48,10 @@ const CreateDid: FC<CreateDidProps> = () => {
                     await did.create(didMethodSelected || agentConfig.didMethod, [message.data]);
                 } catch (error) {
                     setIsBbsBlsCreated(false);
-                    Alert.alert('Error', i18n.t('didStack.errorMessage'));
+                    setPopupTitle(i18n.t('Error'))
+                    setPopupDescription(i18n.t('didStack.errorMessage'))
+                    setPopupVisible(true)
+                    //Alert.alert('Error', i18n.t('didStack.errorMessage'));
                 } finally {
                     setLoading(false);
                 }
@@ -86,7 +94,10 @@ const CreateDid: FC<CreateDidProps> = () => {
         try {
             emit({ type: 'getBbsBlsSecrets' } as any);
         } catch (error) {
-            Alert.alert('Error', i18n.t('didStack.errorMessage'));
+            setPopupTitle(i18n.t('Error'))
+            setPopupDescription(i18n.t('didStack.errorMessage'))
+            setPopupVisible(true)
+            //Alert.alert('Error', i18n.t('didStack.errorMessage'));
             setLoading(false);
         }
     }, [didMethodSelected, did]);
@@ -100,7 +111,10 @@ const CreateDid: FC<CreateDidProps> = () => {
                 did.import(file);
             }
         } catch (error) {
-            Alert.alert('Error', i18n.t('errorDescription'));
+            setPopupTitle(i18n.t('Error'))
+            setPopupDescription(i18n.t('errorDescription'))
+            setPopupVisible(true)
+            //Alert.alert('Error', i18n.t('errorDescription'));
         } finally {
             setLoading(false);
         }
@@ -108,40 +122,21 @@ const CreateDid: FC<CreateDidProps> = () => {
 
     return (
         <Layout
+            backgroundColor={theme.color.primary}
             style={{
                 paddingTop: Platform.OS === 'ios' ? 0 : 10,
             }}
         >
+            <Popup title={PopupTitle} description={PopupDescription}
+                acceptHandler={() => { setPopupVisible(false) }} visible={PopupVisible} warning={true} />
             <ItemContainer>
                 <ItemWrapper>
-                    <ImageContainer backgroundColor={theme.color.primary}>
-                        <StepWrapper
-                            backgroundColor={theme.color.tertiary}
-                            style={{
-                                transform: [{ translateX: width * -0.5 }, { translateY: height * 0.5 }],
-                            }}
-                            onLayout={(event) => {
-                                const { height, width } = event.nativeEvent.layout;
-                                setHeight(height);
-                                setWidth(width);
-                            }}
-                        >
-                            <Step>{i18n.t('step').toUpperCase()} 1</Step>
-                        </StepWrapper>
-                        <ImageWrapper>
-                            <ImageStyled
-                                style={{
-                                    width: '100%',
-                                    height: '100%',
-                                }}
-                                source={stylesConfig.steps[0]}
-                                resizeMode="contain"
-                            />
-                        </ImageWrapper>
-                    </ImageContainer>
+                    <ImageWrapper>
+                        <CreateAccountIcon />
+                    </ImageWrapper>
                     <TextWrapper>
-                        <Title style={{ ...theme.font.title }}>{i18n.t('didStack.createDid')}</Title>
-                        <Description style={{ ...theme.font.subtitle }}>{i18n.t('didStack.haveDid')}</Description>
+                        <Title style={{ color: theme.color.secondary }}>{i18n.t('didStack.createDid')}</Title>
+                        <Description theme={theme} style={{ ...theme.font.subtitle }}>{i18n.t('didStack.haveDid')}</Description>
                     </TextWrapper>
                 </ItemWrapper>
                 {multiMethod && (
@@ -161,30 +156,42 @@ const CreateDid: FC<CreateDidProps> = () => {
                     </PickerWrapper>
                 )}
                 {!isBbsBlsCreated && <WebViewStyled ref={ref} source={{ html: WebModule }} onMessage={onMessage} />}
+
                 <ButtonWrapper>
+                    <TouchableOpacityStyled
+                        style={{
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            flexDirection: 'row',
+                            marginBottom: 24,
+                        }}
+                        disabled={loading || fetching}
+                        onPress={onImport}
+                    >
+                        <TextStyled style={{color: theme.color.secondary}}>{i18n.t('didStack.import')}</TextStyled>
+                    </TouchableOpacityStyled>
                     <Button
-                        style={{ width: '100%' }}
-                        backgroundColor={theme.color.secondary}
+                        backgroundColor={"#404267"}
                         color={theme.color.white}
+                        style={{
+                            paddingTop: 16,
+                            paddingBottom: 16,
+                            width: (Dimensions.get('window').width - 64),
+                            borderRadius: 50
+                        }}
+                        textStyle={{
+                            fontFamily: 'Manrope-Bold',
+                            fontSize: 16,
+                            letterSpacing: 0.32,
+                            lineHeight: 20
+                        }}
                         loading={loading || fetching}
                         onPress={onCreate}
                         disabled={!didMethodSelected}
                     >
                         {i18n.t('didStack.create')}
                     </Button>
-                    <TouchableOpacityStyled
-                        style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            flexDirection: 'row',
-                            marginTop: 10,
-                        }}
-                        disabled={loading || fetching}
-                        onPress={onImport}
-                    >
-                        <TextStyled>{i18n.t('didStack.import')}</TextStyled>
-                        <EntypoStyled name="chevron-small-down" size={25} color={transparentize(0.5, 'black')} />
-                    </TouchableOpacityStyled>
+
                 </ButtonWrapper>
             </ItemContainer>
         </Layout>
@@ -213,16 +220,27 @@ const TouchableOpacityStyled = styled.TouchableOpacity`
 `;
 
 const TextStyled = styled.Text`
-    color: ${transparentize(0.5, 'black')};
+    text-align: center;
+    font-size: 16px;
+    font-family: Manrope-Medium;
+    line-height: 20px;
+    letter-spacing: 0.32px;
+    text-decoration-line: underline;
 `;
 
 const EntypoStyled = styled(Entypo)``;
 
 const ImageWrapper = styled.View`
-    width: 70%;
-    height: 70%;
+    width: 100%;
+    max-width: 192px;
     justify-content: center;
     align-items: center;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 84px;
+    padding-bottom: 90px;
+
 `;
 
 const ImageStyled = styled.Image``;
@@ -249,40 +267,35 @@ const ItemContainer = styled.View`
     width: 100%;
     height: 100%;
     position: relative;
-    padding-bottom: 20px;
+    padding-bottom: 32px;
 `;
 
-const ImageContainer = styled.View`
-    width: 100%;
-    height: ${Dimensions.get('window').height * 0.5}px;
-    background-color: ${(props) => props.backgroundColor};
-    justify-content: center;
-    align-items: center;
-    position: relative;
-`;
 
 const ItemWrapper = styled.View`
     width: 100%;
 `;
 
 const TextWrapper = styled.View`
-    padding: 35px 20px;
+    padding: 0px 20px;
     align-items: center;
 `;
 
 const Title = styled.Text`
-    font-size: 20px;
-    font-weight: bold;
-    padding-bottom: 10px;
+    font-size: 24px;
+    font-family: Manrope-Bold;
+    padding-bottom: 18px;
     text-align: center;
+    line-height: 30px;
 `;
 const Description = styled.Text`
-    color: ${lighten(0.4, 'black')};
+    color: ${props=>{props.theme.color.secondary}};
     text-align: center;
+    font-size: 14px;
+    line-height: 17.5px;
+    font-family: Manrope-Regular;
 `;
 
 const ButtonWrapper = styled.View`
-    width: 80%;
 `;
 
 export default CreateDid;

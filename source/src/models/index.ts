@@ -28,6 +28,8 @@ export enum NotificationType {
     OFFER_CREDENTIAL = 'offerCredential',
     REQUEST_PRESENTATION = 'requestPresentation',
     PRESENTATION_ACK = 'presentationAck',
+    PDF_ARRIVED = 'pdfArrived',
+    TEXT_ARRIVED = 'textArrived'
 }
 
 export interface IAgentConfig {
@@ -60,6 +62,7 @@ export interface IStylesConfig {
         footerColor: string;
         statusBar: 'light-content' | 'dark-content';
         introductionType?: 'all' | 'none';
+        introductionResizeMode?: 'all' | 'none' | 'cover';
     };
     features: any[];
     introduction: {

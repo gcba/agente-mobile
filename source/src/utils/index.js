@@ -77,3 +77,7 @@ export const validateDate = (date) => {
   if (!date) return false;
   return new Date(date) < new Date();
 };
+
+export const isImgUrl = (url) => {
+  return /\.(jpg|jped|png|webp|gif)$/.test(url)
+}

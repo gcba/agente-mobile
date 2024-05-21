@@ -1,11 +1,13 @@
 import { NavigationProp, RouteProp } from '@react-navigation/native';
 import Lottie from 'lottie-react-native';
 import { transparentize } from 'polished';
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useState } from 'react';
 import styled, { useTheme } from 'styled-components/native';
 import BasicLayout from '../../components/BasicLayout';
 import Button from '../../components/Button';
 import i18n from '../../locale';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { Dimensions } from 'react-native';
 
 interface VerificationResultProps {
     navigation: NavigationProp<any>;
@@ -15,6 +17,8 @@ interface VerificationResultProps {
 const VerificationResult: FC<VerificationResultProps> = ({ navigation, route }) => {
     const result = useMemo(() => route.params?.data, [route.params?.data]);
     const theme = useTheme();
+    const [btnPress, isBtnPress] = useState(false);
+
 
     return (
         <BasicLayout
@@ -44,18 +48,40 @@ const VerificationResult: FC<VerificationResultProps> = ({ navigation, route }) 
                           }) || i18n.t('verificationError.default')}
                 </Body>
             </TextWrapper>
-            <Button
-                backgroundColor={theme.color.secondary}
-                onPress={() => navigation.goBack()}
-                style={{
-                    width: '80%',
-                }}
-            >
-                {i18n.t('accept')}
-            </Button>
+
+            <ButtonsWrapper>
+                    <SendButton onPress={() => navigation.goBack()}
+                        onShowUnderlay={() => isBtnPress(true)} onHideUnderlay={() => isBtnPress(false)} theme={theme}>
+                        <Texto style={{ color: theme.color.primary }} btnPressed={btnPress}>{i18n.t('accept')}</Texto>
+                    </SendButton>
+                </ButtonsWrapper>
         </BasicLayout>
     );
 };
+
+const ButtonsWrapper = styled.View`
+align-items: center;
+`
+
+const SendButton = styled(TouchableHighlight)`
+display: flex;
+height: 52px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+width: ${Dimensions.get('window').width - 64}px;
+border-radius: 50px;
+background: ${props => props.theme.color.secondary};
+`;
+
+const Texto = styled.Text`
+    text-align: center;
+    font-family: Manrope-Bold;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 20px;
+    letter-spacing: 0.32px;
+`
 
 const LottieStyled = styled(Lottie)`
     margin-bottom: 20px;

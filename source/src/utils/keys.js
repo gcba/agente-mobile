@@ -1,5 +1,5 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
-
+import DeleteIcon from "../assets/icons/DeleteIcon.js";
 export default [
     '1',
     '2',
@@ -16,7 +16,7 @@ export default [
     },
     '0',
     {
-        content: <AntDesign name="arrowleft" size={24} color="white" />,
+        content: <DeleteIcon />,
         type: 'delete',
     },
     ,

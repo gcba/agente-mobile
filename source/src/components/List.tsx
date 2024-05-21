@@ -9,6 +9,9 @@ interface ListProps {
     contentContainerStyle?: any;
     showsVerticalScrollIndicator?: boolean;
     style?: any;
+    ItemSeparatorComponent?: React.FC<any>;
+    ListFooterComponent?: React.FC<any>;
+    ListHeaderComponent?: React.FC<any>;
 }
 
 const List: FC<ListProps> = ({
@@ -18,6 +21,7 @@ const List: FC<ListProps> = ({
     onPressItem = () => {},
     contentContainerStyle,
     showsVerticalScrollIndicator = true,
+    ItemSeparatorComponent,
     style,
     ...props
 }) => {
@@ -25,8 +29,10 @@ const List: FC<ListProps> = ({
         <FlatListStyled
             {...props}
             data={data}
-            renderItem={({ item }) => (
+            renderItem={({ item, index, separators }) => (
                 <RenderItemComponent
+                    separators={separators}
+                    index={index}
                     item={item}
                     onPress={() => {
                         onPressItem(item);
@@ -39,7 +45,7 @@ const List: FC<ListProps> = ({
                 height: !data || data.length === 0 ? '100%' : null,
                 ...contentContainerStyle,
             }}
-            ItemSeparatorComponent={() => <Separator />}
+            ItemSeparatorComponent={ItemSeparatorComponent || (() => <Separator />)}
             style={{ width: '100%', ...style }}
             ListEmptyComponent={() => (
                 <EmptyWrapper>

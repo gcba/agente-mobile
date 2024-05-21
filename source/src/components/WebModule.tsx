@@ -1,4 +1,4 @@
-import { Base, BaseConverter } from '@quarkid/kms-core';
+import { Base, BaseConverter } from '@extrimian/kms-core';
 import { BbsBls2020Suite } from '@extrimian/kms-suite-bbsbls2020';
 import { Buffer } from 'buffer';
 import React from 'react';

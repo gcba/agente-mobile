@@ -5,7 +5,7 @@
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
-		<string>QuarkID Test</string>
+		<string>QuarkID HML</string>
 		<key>CFBundleExecutable</key>
 		<string>$(EXECUTABLE_NAME)</string>
 		<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 		<key>CFBundlePackageType</key>
 		<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 		<key>CFBundleShortVersionString</key>
-		<string>3.0.2</string>
+		<string>3.0.6</string>
 		<key>CFBundleSignature</key>
 		<string>????</string>
 		<key>CFBundleURLTypes</key>
@@ -26,8 +26,13 @@
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>extrimian</string>
-					<string>com.extrimian.quarkid.test</string>
-					<string>didcom</string>
+					<string>com.extrimian.quarkid.hml</string>
+				</array>
+			</dict>
+			<dict>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>didcomm</string>
 				</array>
 			</dict>
 		</array>

@@ -11,7 +11,7 @@ import {
     WACIProtocol,
     WebsocketClientTransport,
 } from '@extrimian/agent';
-import { IJWK, IKeyPair } from '@quarkid/kms-core';
+import { IJWK, IKeyPair } from '@extrimian/kms-core';
 import { OneClickPlugin } from '@extrimian/one-click-agent-plugin';
 import { NavigationProp } from '@react-navigation/native';
 import * as Notifications from 'expo-notifications';
@@ -33,6 +33,8 @@ import {
 } from '../models';
 import { SecureStorage } from '../storages/secure-storage';
 import { Storage } from '../storages/storage';
+import { AMISDKPlugin } from '@extrimian/ami-agent-plugin'
+import { ChunkedEncoder, ContentType } from '@extrimian/ami-sdk'
 
 const applicationSecureStorage = new SecureStorage('application');
 const applicationStorage = new Storage('application');
@@ -43,7 +45,13 @@ const vcStorage = new Storage('vc');
 const waciStorage = new Storage('waci');
 const openidStorage = new Storage('openid');
 
+const amiMessageStorage = new Storage('amiMessage');
+const amiMessageThreadStorage = new Storage('amiMessageThread');
+const amiChatStorage = new Storage('amiChat');
+const amiEncoder = new ChunkedEncoder(1024*64);
+
 export const oneClickPlugin = new OneClickPlugin();
+export const amiPlugin = new AMISDKPlugin({ messageIStorage: amiMessageStorage, messageThreadIStorage: amiMessageThreadStorage, chatIStorage: amiChatStorage, encoder: amiEncoder });
 
 export const websocketTransport = new WebsocketClientTransport();
 export const dwnTransport = new DWNTransport();
@@ -68,6 +76,7 @@ interface ApplicationStoreProps {
     agent: Agent;
     initialize: (navigation: NavigationProp<any>) => Promise<void>;
     processMessage: (message: any) => Promise<void>;
+    sendMessage: (message: any) => Promise<void>;
     reset: () => Promise<void>;
     credentials: VerifiableCredentialWithInfo[];
     notifications: INotification[];
@@ -106,6 +115,7 @@ interface ApplicationStoreProps {
     };
     tutorial: {
         skip: () => Promise<void>;
+        get: () => Promise<boolean>;
     };
 }
 export const useApplicationStore = create<ApplicationStoreProps>((set, get) => ({
@@ -115,11 +125,24 @@ export const useApplicationStore = create<ApplicationStoreProps>((set, get) => (
     initialize: async (navigation) => {
         const notifications: INotification[] = (await applicationStorage.get(StorageItemsType.NOTIFICATIONS)) || [];
         let data: IEntities[]
-        await fetch(agentConfig.entities).then((res)=>{return res.json()}).then((j)=>{data = j.service}).catch((error) => {
+        await fetch(agentConfig.entities).then((res) => { return res.json() }).then((j) => { data = j.service }).catch((error) => {
             console.log('There has been a problem with your fetch operation: ' + error.message);
         });
         const entities: IEntities[] = data || extraConfig.initialEntities || [];
         await get().agent.initialize();
+        try {
+            //console.log(amiPlugin.amisdk)
+            amiPlugin.amisdk.standardMessage.on((e) => {
+                if (e.body.contentType == ContentType.PDF_UNSIGNED) {
+                    get().notification.send(NotificationType.PDF_ARRIVED, e)
+                } else if (e.body.contentType == ContentType.TEXT) {
+                    get().notification.send(NotificationType.TEXT_ARRIVED, e)
+                }
+            })
+            //console.log(amiPlugin.amisdk)
+        } catch (err) {
+            console.log('err: ', err)
+        }
         set(() => ({
             notifications,
             entities,
@@ -135,7 +158,7 @@ export const useApplicationStore = create<ApplicationStoreProps>((set, get) => (
         vcProtocols: [
             new WACIProtocol({
                 holder: {
-                    credentialApplication: async (inputs, message, issuer, credentialsToReceive) => {
+                    credentialApplication: async (inputs, _, message, issuer, credentialsToReceive) => {
                         const transport = get().agent.transport.getTranportByMessageId(message.id);
                         const isConnectableTransport = transport instanceof ConnectableTransport;
 
@@ -184,7 +207,7 @@ export const useApplicationStore = create<ApplicationStoreProps>((set, get) => (
                                 message,
                             });
 
-                            return new Promise<VerifiableCredential[]>((resolve, reject) => {});
+                            return new Promise<VerifiableCredential[]>((resolve, reject) => { });
                         }
                     },
                 },
@@ -194,7 +217,7 @@ export const useApplicationStore = create<ApplicationStoreProps>((set, get) => (
                 storage: openidStorage,
             }),
         ],
-        agentPlugins: [],
+        agentPlugins: [amiPlugin],
         agentStorage,
         secureStorage: agentSecureStorage,
         vcStorage,
@@ -255,23 +278,38 @@ export const useApplicationStore = create<ApplicationStoreProps>((set, get) => (
         if (get().state === StateType.STARTING) {
             if (await applicationSecureStorage.get(SecureStorageType.PIN)) {
                 set(() => ({ state: StateType.UNAUTHENTICATED }));
+                get().navigation.navigate('Authenticate')
             } else {
                 set(() => ({ state: StateType.NO_PIN }));
                 get().navigation.navigate('PinStack');
             }
         } else if (get().state === StateType.AUTHENTICATED) {
-            if (!(await applicationStorage.get(StorageType.INTRODUCTION))) {
-                get().navigation.navigate('Introduction');
-            } else if (!(await applicationStorage.get(StorageType.WITH_DID))) {
+            // if (!(await applicationStorage.get(StorageType.INTRODUCTION))) {
+            //     get().navigation.navigate('Introduction');
+            // } else 
+            if (!(await applicationStorage.get(StorageType.WITH_DID))) {
                 get().navigation.navigate('DidStack', { screen: 'CreateDid' });
-            } else if (!(await applicationStorage.get(StorageType.CONFIRMED_DID))) {
-                get().navigation.navigate('DidStack', { screen: 'ConfirmDid' });
-            } else {
-                get().navigation.navigate('MainStack', {
-                    screen: 'TabStack',
-                    params: {
-                        tutorial: !(await applicationStorage.get(StorageType.TUTORIAL)),
-                    },
+            } 
+            // else if (!(await applicationStorage.get(StorageType.CONFIRMED_DID))) {
+            //     get().navigation.navigate('DidStack', { screen: 'ConfirmDid' });
+            // } 
+            else {
+                //get().navigation.navigate('MainStack')
+                // , {
+                //     screen: 'TabStack',
+                //     // params: {
+                //     //     tutorial: !(await applicationStorage.get(StorageType.TUTORIAL)),
+                //     // },
+                // });
+
+                get().navigation.reset({
+                    index: 0,
+                    routes: [{
+                        name: 'MainStack',
+                        params: {
+                            tutorial: !(await applicationStorage.get(StorageType.TUTORIAL)),
+                        },
+                    }]
                 });
             }
         }
@@ -340,7 +378,12 @@ export const useApplicationStore = create<ApplicationStoreProps>((set, get) => (
     },
 
     notification: {
-        remove: async (id: string) => {},
+        remove: async (id: string) => {
+            let notifications: INotification[] = get().notifications || [];
+            notifications = notifications.filter((notification) => notification.id != id)
+            await applicationStorage.add(StorageItemsType.NOTIFICATIONS, notifications);
+            set(() => ({ notifications }));
+        },
         add: async (notification: INotification) => {
             let notifications: INotification[] = get().notifications || [];
             notifications = [notification, ...notifications];
@@ -363,6 +406,40 @@ export const useApplicationStore = create<ApplicationStoreProps>((set, get) => (
                         case NotificationType.PRESENTATION_ACK:
                             get().navigation.navigate('VerificationResult', {
                                 data: { status: notification.extra.status, code: notification.extra.code },
+                            });
+                            break;
+                        case NotificationType.PDF_ARRIVED:
+                            var acceptHandler = async () => {
+                                const amiMessage = await amiPlugin.amisdk.createAckMessage(notification.extra.did, notification.extra.thid)
+                                get().sendMessage({ to: DID.from(notification.extra.did), message: amiMessage, preferredTransport:dwnTransport })
+                                get().navigation.goBack()
+                            }
+                            var declineHandler = async () => {
+                                const amiMessage = await amiPlugin.amisdk.createProblemReport(notification.extra.did, notification.extra.thid, { code: "rejected", comment: "not confirmed" })
+                                get().sendMessage({ to: DID.from(notification.extra.did), message: amiMessage, preferredTransport:dwnTransport })
+                                get().navigation.goBack()
+                            }
+                            amiPlugin.amisdk.decodeFileMessageBody(notification.extra.body).then((array)=>{
+                                return amiEncoder.encodeUint8ArrayToBase64(array)
+                            }).then((data)=>{
+                                get().navigation.navigate('PDFDetails', {
+                                    data: { did: notification.extra.did, thid: notification.extra.thid, id: notification.id, data: data, acceptHandler, declineHandler, pdf:true },
+                                });
+                            })
+                            break;
+                        case NotificationType.TEXT_ARRIVED:
+                            var acceptHandler = async () => {
+                                const amiMessage = await amiPlugin.amisdk.createAckMessage(notification.extra.did, notification.extra.thid)
+                                get().sendMessage({ to: DID.from(notification.extra.did), message: amiMessage, preferredTransport:dwnTransport })
+                                get().navigation.goBack()
+                            }
+                            var declineHandler = async () => {
+                                const amiMessage = await amiPlugin.amisdk.createProblemReport(notification.extra.did, notification.extra.thid, { code: "rejected", comment: "not confirmed" })
+                                get().sendMessage({ to: DID.from(notification.extra.did), message: amiMessage, preferredTransport:dwnTransport })
+                                get().navigation.goBack()
+                            }
+                            get().navigation.navigate('PDFDetails', {
+                                data: { did: notification.extra.did, thid: notification.extra.thid, id: notification.id, data: notification.extra.body.data, acceptHandler, declineHandler, pdf:false },
                             });
                             break;
                         default:
@@ -453,10 +530,17 @@ export const useApplicationStore = create<ApplicationStoreProps>((set, get) => (
         skip: async () => {
             await applicationStorage.add(StorageType.TUTORIAL, true);
         },
+        get: async () => {
+            return await applicationStorage.get(StorageType.TUTORIAL) == null
+        }
     },
 
     processMessage: async (message: any) => {
         await get().agent.processMessage(message);
+    },
+
+    sendMessage: async (params: any) => {
+        await get().agent.messaging.sendMessage(params)
     },
 
     reset: async () => {

@@ -23,9 +23,23 @@
     "closeConnectionMessage": "¿Estás seguro de que quieres cerrar la conexión?",
     "continue": "Continuar",
     "skip": "Omitir",
+    "Error": "Error",
+    "more": "Ver más",
+    "loading": {
+        "processing": "Procesando...",
+        "message": "Puede tardar unos segundos"
+    },
+    "today":"Hoy",
+    "lastWeek":"Últimos 7 días",
+    "before": "Antes",
+    "tutorial":{
+        "introTitle": "Guarde sus credenciales de forma segura"
+    },
     "pinStack": {
+        "continue": "Comenzar",
         "createPin": "Crea tu PIN",
         "confirmPin": "Confirmando tu PIN",
+        "description": "El PIN debe tener 8 dígitos",
         "welcome": "Bienvenido",
         "welcomeMessage": "Deberás crear un PIN de seguridad para poder continuar"
     },
@@ -34,10 +48,10 @@
         "start": "Comenzar"
     },
     "didStack": {
-        "createDid": "Crea una identidad descentralizada en este dispositivo",
+        "createDid": "Crea tu cuenta",
         "loadingTitle": "Publicando tu DID",
         "loadingDid": "Tu Identidad Digital Descentralizada está siendo publicada y sólo tomará unos minutos. Podés cerrar y volver en unos minutos, te notificaremos cuando esté lista.",
-        "haveDid": "Si ya tienes una identidad descentralizada puedes importarla aquí",
+        "haveDid": "O importa tus credenciales",
         "create": "Crear tu DID",
         "import": "Importar datos",
         "success": "Éxito",
@@ -63,7 +77,7 @@
     },
     "credentialsScreen": {
         "empty": "No has añadido ninguna credencial, añade una para poder comenzar",
-        "title": "Credenciales verificadas",
+        "title": "Credenciales",
         "add": "Añadir nueva credencial",
         "deleted": "Credencial eliminada",
         "deletedDescription": "Esta credencial ha sido eliminada"
@@ -77,36 +91,109 @@
         "title": "Notificaciones"
     },
     "settingsScreen": {
-        "title": "Ajustes",
+        "title": "Configuración",
         "export": {
             "title": "Exportar claves",
-            "description": "Exportar tus datos a un archivo"
+            "description": "Resguarda tus claves en tu dispositivo",
+            "btn1": "E-mail",
+            "btn2": "Enviar"
         },
         "share": {
-            "title": "Compartir tu DID",
-            "description": "Compartir tu DID con otros"
+            "title": "Compartir tu ID",
+            "semiTitle": "Compartir DID",
+            "description": "Controla tu identidad, comparte con seguridad",
+            "btn": "Copiar",
+            "sharebtn": "Compartir"
         },
         "reset": {
-            "title": "Reiniciar aplicación",
-            "description": "Reiniciar los datos de la aplicación",
-            "message": "¿Estás seguro de que quieres reiniciar la aplicación?",
+            "title": "Restaurar aplicación",
+            "semiTitle": "Restaurar configuración inicial",
+            "description": "Esto eliminará todos tus datos",
+            "btn": "Restaurar",
+            "popupTitle": "¿Estás seguro?",
+            "message1": "Restaurar incluye la eliminación de datos, DID, claves, credenciales verificables, configuraciones, preferencias y cualquier otra modificación que hayas realizado",
+            "message2": "¿Estás seguro de que quieres restaurar la aplicación? Ten en cuenta que esta acción no se puede deshacer. Te recomendamos hacer un respaldo de tus claves antes de proceder",
             "ok": "Reiniciar"
         },
         "config": {
             "title": "Configuración",
             "description": "Configuración de la aplicación"
+        },
+        "terms": {
+            "title": "Terms",
+            "items": [
+                {
+                    "title":"Lorem ipsum",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc."
+                },
+                {
+                    "title":"Sed aliquam semper",
+                    "description": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc.",
+                                    "Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc posuer."]
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "items": [
+                {
+                    "title":"Lorem ipsum",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc."
+                },
+                {
+                    "title":"Sed aliquam semper",
+                    "description": ["Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc.",
+                                    "Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc posuer."]
+                }
+            ]
+        },
+        "faq": {
+            "title": "Preguntas frecuentes",
+            "moreInfo": "Para más información podes ir a",
+            "questions": [
+                {
+                    "title":"¿Que es la identidad descentralizada?",
+                    "description": "La identidad descentralizada es un concepto en el que los individuos tienen el poder de poseer, controlar y compartir sus propios datos de identidad de manera segura y autónoma a través de tecnologías como la criptografía y las cadenas de bloques, evitando la dependencia de intermediarios centralizados. Esto permite una mayor privacidad y control sobre la información personal en entornos digitales."
+                },{
+                    "title":"¿Es seguro compartir mi did?",
+                    "description": "Sí, compartir tu DID (Identificador Descentralizado) en un entorno que respalda la identidad descentralizada generalmente se considera seguro. Los DIDs están diseñados para permitir que los usuarios tengan control sobre su propia identidad y datos personales, lo que significa que tú decides cuándo y con quién compartes tu DID y los datos asociados."
+                },{
+                    "title":"¿Qué implica la rotación de claves?",
+                    "description": "La rotación de claves asociada con un documento DID (Identificador Descentralizado) implica cambiar las claves criptográficas vinculadas al DID y utilizadas para establecer la identidad en línea de un usuario y asegurar interacciones. Cambiar las claves periódicamente reduce el riesgo de que las claves sean comprometidas y se utilicen para acceder a datos personales o llevar a cabo acciones no autorizadas."
+                },{
+                    "title":"¿Para que necesito exportar mis claves?",
+                    "description": "La función de exportar claves realiza lo siguiente: recopila tanto las claves públicas como privadas, la mnemotecnia (conjunto de palabras que representan tu clave secreta), y el DID (Identificador Descentralizado) asociado. Luego, crea un archivo que contiene toda esta información importante. Tú tienes el control para decidir dónde deseas guardar este archivo en tu dispositivo. Esta característica te brinda una forma segura de respaldar y transportar tus datos esenciales de identidad y criptográficos para su uso en otros dispositivos o en situaciones de recuperación."
+                },{
+                    "title":"¿Que implica Restaurar configuración inicial?",
+                    "description": "Restaurar a los valores predeterminados implica que todos los cambios y personalizaciones que has realizado en la aplicación serán eliminados, y la aplicación volverá a su estado original tal como estaba cuando la instalaste por primera vez. Esto incluye la eliminación de datos, did, claves, credenciales verificables, configuraciones, preferencias y cualquier otra modificación que hayas realizado. Por favor, ten en cuenta que esta acción no se puede deshacer, por lo que te recomendamos hacer una copia de seguridad de tu información importante antes de proceder."
+                },{
+                    "title":"¿Como funciona una wallet de identidad?",
+                    "description": "Una wallet de identidad es una herramienta que permite a los usuarios almacenar, proteger y controlar sus datos de identidad digital de forma segura. Los usuarios pueden compartir selectivamente esta información en línea, demostrar su identidad y mantener su privacidad, todo mientras tienen la portabilidad de llevar su identidad digital a diferentes servicios y aplicaciones. Esto reduce la dependencia de intermediarios centralizados en la gestión de la identidad."
+                },{
+                    "title":"¿Que ventajas ofrece la identidad descentralizada?",
+                    "description": "La identidad descentralizada ofrece ventajas como mayor control y privacidad de los datos de identidad, seguridad, portabilidad, interoperabilidad y reducción del fraude, empoderando a los usuarios al eliminar la dependencia de intermediarios centralizados."
+                }
+            ]
         }
     },
+    "errorScreen": {
+        "title": "Error 2354",
+        "description": "Text explaining the error",
+        "btn1": "Support",
+        "btn2": "Go to wallet"
+     },
     "scanScreen": {
         "title": "Escanear QR",
-        "error": "Error al escanear el código QR"
+        "error": "Error al escanear el código QR",
+        "urlTitle": "Está siendo redirigido a: ",
+        "urlDescription": "Desea continuar?"
     },
     "configurationScreen": {
         "title": "Configuración"
     },
     "credentialDetailsScreen": {
         "title": "Detalles de credencial",
-        "remove": "Eliminar credential",
+        "remove": "Eliminar credencial",
         "removeMessage": "¿Estás seguro de que quieres eliminar esta credencial?"
     },
     "entityDetailsScreen": {
@@ -114,7 +201,8 @@
         "button": "Conectar",
         "name": "Nombre",
         "description": "Descripción",
-        "website": "Redirección"
+        "website": "Redirección",
+        "contact": "Contacto"
     },
     "addCredentialScreen": {
         "title": "Añade una credencial",
@@ -137,6 +225,7 @@
         "expiration": "Expiración",
         "accept": "Aceptar",
         "reject": "Rechazar credenciales",
+        "addTitle": "está compartiendo esta información",
         "rejectDescription": "¿Estás seguro de que quieres rechazar estas credenciales?"
     },
     "verificationResultScreen": {
@@ -152,14 +241,17 @@
         "message": "Añade una credencial valida",
         "expiration": "Expiración",
         "accept": "Presentar",
-        "emit": "quiere emitirte estas credenciales:",
+        "emit": "quiere emitir estas credenciales",
         "present": "Necesitas presentar las siguientes credenciales:",
         "reject": "Rechazar credenciales",
+        "create": "Crear",
+        "createTitle": "Crear Credenciales",
+        "presentTitle": "Presentar Credenciales",
         "rejectDescription": "¿Estás seguro de que quieres rechazar estas credenciales?"
     },
     "notifications": {
         "didCreated": {
-            "title": "Tu DID está listo ✅",
+            "title": "Tu DID está listo",
             "body": "Tu DID está listo para ser usado"
         },
         "issueCredential": {
@@ -173,6 +265,14 @@
         "requestPresentation": {
             "title": "Solicitud de presentación",
             "body": "Se requiere la presentación de una credencial"
+        },
+        "pdfArrived": {
+            "title": "Recibiste un mensaje pdf",
+            "body": "Acepta o rechaza el mensaje"
+        },
+        "textArrived": {
+            "title": "Recibiste un mensaje de texto",
+            "body": "Acepta o rechaza el mensaje"
         },
 
         "presentationAck": {

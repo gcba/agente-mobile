@@ -18,6 +18,17 @@ import ConfirmPin from '../screens/pin/Confirm';
 import CreatePin from '../screens/pin/Create';
 import TutorialPin from '../screens/pin/Tutorial';
 import TabStack from './TabStack';
+import ExportKeys from '../screens/main/ExportKeys';
+import ShareDID from '../screens/main/ShareDID';
+import ResetApp from '../screens/main/Reset';
+import FAQ from '../screens/main/FAQ';
+import ImageDetails from '../screens/main/ImageDetails';
+import PDFDetails from '../screens/main/PDFDetails'
+import { useNavigationContainerRef } from '@react-navigation/native';
+import Authenticate from '../components/Authenticate';
+import { useApplicationStore } from '../contexts/useApplicationStore';
+import { shallow } from 'zustand/shallow';
+import LoadingScreen from '../screens/LoadingScreen';
 
 const PinStack = () => {
     const Stack = createNativeStackNavigator();
@@ -36,8 +47,8 @@ const DidStack = () => {
 
     return (
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name={'CreateDid'} component={CreateDid} />
-            <Stack.Screen name={'ConfirmDid'} component={ConfirmDid} />
+            <Stack.Screen options={{animation: 'none'}} name={'CreateDid'} component={CreateDid} />
+            <Stack.Screen options={{animation: 'none'}} name={'ConfirmDid'} component={ConfirmDid} />
         </Stack.Navigator>
     );
 };
@@ -59,6 +70,12 @@ const MainStack = () => {
             <Stack.Screen name={'VerificationResult'} component={VerificationResult} />
             <Stack.Screen name={'Settings'} component={Settings} />
             <Stack.Screen name={'Notifications'} component={Notifications} />
+            <Stack.Screen name={'ExportKeys'} component={ExportKeys} />
+            <Stack.Screen name={'ShareDID'} component={ShareDID} />
+            <Stack.Screen name={'ResetApp'} component={ResetApp} />
+            <Stack.Screen name={'FAQ'} component={FAQ} />
+            <Stack.Screen name={'ImageDetails'} component={ImageDetails} />
+            <Stack.Screen name={'PDFDetails'} component={PDFDetails} />
         </Stack.Navigator>
     );
 };
@@ -72,8 +89,9 @@ const RootStack = () => {
                 headerShown: false,
             }}
         >
+            <Stack.Screen name={'Loading'} component={LoadingScreen} />
             <Stack.Screen name={'PinStack'} component={PinStack} />
-            <Stack.Screen name={'Introduction'} component={Introduction} />
+            <Stack.Screen name={'Authenticate'} component={Authenticate} />
             <Stack.Screen name={'DidStack'} component={DidStack} />
             <Stack.Screen name={'MainStack'} component={MainStack} />
         </Stack.Navigator>

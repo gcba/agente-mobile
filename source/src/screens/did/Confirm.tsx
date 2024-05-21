@@ -31,7 +31,7 @@ const ConfirmDid: FC<ConfirmDidProps> = () => {
                 <ItemWrapper>
                     <ImageContainer backgroundColor={theme.color.primary}>
                         <StepWrapper
-                            backgroundColor={theme.color.tertiary}
+                            backgroundColor={theme.color.secondary}
                             style={{
                                 transform: [{ translateX: width * -0.5 }, { translateY: height * 0.5 }],
                             }}

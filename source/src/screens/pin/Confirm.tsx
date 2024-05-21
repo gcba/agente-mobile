@@ -9,6 +9,7 @@ import PinItems from '../../components/PinItems';
 import { useApplicationStore } from '../../contexts/useApplicationStore';
 import i18n from '../../locale';
 import { Layout } from '../../styled-components/Layouts';
+import app from '../../../app.json'
 
 const ConfirmPin = ({ navigation, route }) => {
     const theme = useTheme();
@@ -39,22 +40,17 @@ const ConfirmPin = ({ navigation, route }) => {
             }
         }
     }, []);
-
+    const bkcolor = app.expo.name == "RockID"? {backgroundColor: theme.color.primary} : null;
     return (
-        <Draft navigation={navigation} color={theme.color.white} setHeight={setHeaderHeight} backgroundColor={theme.color.primary}>
-            <Layout>
-                <Wrapper headerHeight={headerHeight} safeAreaHeight={top + bottom}>
+        <Draft color={theme.color.white} setHeight={setHeaderHeight} backgroundColor={theme.color.primary}>
+            <Layout backgroundColor={theme.color.primary} {...bkcolor}>
+                <Wrapper style={{backgroundColor: theme.color.primary}} headerHeight={headerHeight} safeAreaHeight={top + bottom}>
                     <TitleWrapper>
-                        <Title style={{ ...theme.font.title }}>{i18n.t('pinStack.confirmPin')}</Title>
+                        <Title style={{color: theme.color.secondary}}>{i18n.t('pinStack.confirmPin')}</Title>
+                        <Description theme={theme}>{i18n.t('pinStack.description')}</Description>
+
                     </TitleWrapper>
-                    <ImageStyled
-                        style={{
-                            width: Dimensions.get('window').width * 0.5,
-                            height: Dimensions.get('window').height * 0.3,
-                        }}
-                        source={theme.images.logo}
-                        resizeMode="contain"
-                    />
+
 
                     <PinItems length={authenticationPin.length} value={value} error={error} color={theme.color.secondary} style={{ marginBottom: 15 }} />
                     <NumberPad
@@ -79,13 +75,26 @@ const Wrapper = styled.View`
     width: 100%;
     height: 100%;
     padding-bottom: 20px;
+    padding-top: 80px;
 `;
 
 const Title = styled.Text`
-    color: ${(props) => props.theme.color.font};
+    text-align: center;
     font-size: 24px;
-    padding: 20px;
+    font-style: normal;
+    font-family: Manrope-Bold;
+    line-height: 30px;
+    margin-bottom: 9px
 `;
+const Description = styled.Text`
+    color: ${props=>{props.theme.color.font}};
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-family: Manrope-Regular;
+    line-height: 17.5px;
+    letter-spacing: 0.14px;
+`
 
 const TitleWrapper = styled.View`
     align-items: center;

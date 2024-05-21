@@ -2,10 +2,10 @@ import { IStylesConfig } from '../models';
 
 const stylesConfig: IStylesConfig = {
     style: {
-        primaryColor: '#fff',
-        secondaryColor: '#008AA1',
-        tertiaryColor: '#03a7c4',
-        fontColor: '#000',
+        primaryColor: '#f3f6f9',
+        secondaryColor: '#404267',
+        tertiaryColor: '#D7F1F6',
+        fontColor: '#6B6C89',
         footerColor: '#fff',
         statusBar: 'dark-content',
         introductionType: 'all',

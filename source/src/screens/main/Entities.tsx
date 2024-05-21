@@ -21,7 +21,7 @@ const Entities: FC<EntitiesProps> = ({ navigation }) => {
     const { entities } = useApplicationStore((state) => ({ entities: state.entities }), shallow);
 
     return (
-        <BasicLayout title={app.expo.name} principal>
+        <BasicLayout headerStyle={{ width: '100%' }} backText={false} onBack={() => navigation.goBack()}>
             <ListLayout
                 title={i18n.t('entitiesScreen.title')}
                 showsVerticalScrollIndicator={true}

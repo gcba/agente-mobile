@@ -1,0 +1,2 @@
+name=QuarkID Dev
+identifier=com.extrimian.quarkid.dev

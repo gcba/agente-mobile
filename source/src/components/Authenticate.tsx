@@ -9,8 +9,10 @@ import { useApplicationStore } from '../contexts/useApplicationStore';
 import { Layout } from '../styled-components/Layouts';
 import NumberPad from './NumberPad';
 import PinItems from './PinItems';
+import app from '../../app.json'
+import i18n from '../locale';
 
-const Authenticate = ({ title, onAuthenticate = () => {} }) => {
+const Authenticate = () => {
     const theme: any = useTheme();
     const [value, setValue] = useState('');
     const authenticationPinLength = useMemo(() => 8, []);
@@ -25,11 +27,12 @@ const Authenticate = ({ title, onAuthenticate = () => {} }) => {
         shallow
     );
 
-    const authenticate = useCallback(() => {
-        LocalAuthentication.authenticateAsync().then((result) => {
+    const authenticate = useCallback(async () => {
+        await LocalAuthentication.authenticateAsync().then(async (result) => {
             if (result.success) {
                 Vibration.vibrate(50);
-                onAuthenticate();
+                await pin.authenticate()
+                //onAuthenticate();
             }
         });
     }, []);
@@ -39,7 +42,8 @@ const Authenticate = ({ title, onAuthenticate = () => {} }) => {
             setValue(authPin);
             if (authPin.length === authenticationPinLength) {
                 if (await pin.validate(authPin)) {
-                    onAuthenticate();
+                    await pin.authenticate()
+                    //onAuthenticate();
                 } else {
                     Vibration.vibrate(50);
                     setError(true);
@@ -62,7 +66,7 @@ const Authenticate = ({ title, onAuthenticate = () => {} }) => {
             }
         });
     }, []);
-
+    const bkcolor = app.expo.name == "RockID" ? {backgroundColor: theme.color.primary} : null;
     return (
         <Container
             style={{
@@ -71,18 +75,19 @@ const Authenticate = ({ title, onAuthenticate = () => {} }) => {
                 right: 0,
                 top: 0,
                 bottom: 0,
+                backgroundColor: theme.color.primary
             }}
         >
-            <Layout>
+            <Layout {...bkcolor} style={{backgroundColor: theme.color.primary}}>
                 <Wrapper safeAreaHeight={top + bottom}>
                     <TitleWrapper>
-                        <Title style={{ ...theme.font.title }}>{title}</Title>
+                        <Title style={{ ...theme.font.title }}>{i18n.t('authentication')}</Title>
                     </TitleWrapper>
 
                     <ImageStyled
                         style={{
-                            width: Dimensions.get('window').width * 0.7,
-                            height: Dimensions.get('window').height * 0.3,
+                            width: Dimensions.get('window').width * 0.4,
+                            height: Dimensions.get('window').height * 0.2,
                         }}
                         source={theme.images.logo}
                         resizeMode="contain"
@@ -111,7 +116,6 @@ const ImageStyled = styled.Image``;
 const Container = styled.SafeAreaView`
     flex: 1;
     align-items: center;
-    background-color: ${(props) => props.theme.color.primary || 'white'};
     z-index: 10;
 `;
 
@@ -129,7 +133,7 @@ const TitleWrapper = styled.View`
 `;
 
 const Title = styled.Text`
-    color: ${(props) => props.theme.color.font};
+    color: ${(props) => props.theme.color.secondary};
     font-size: 24px;
     padding: 20px;
 `;

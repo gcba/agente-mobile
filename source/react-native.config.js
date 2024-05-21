@@ -7,4 +7,5 @@ module.exports = {
             android: {},
         },
     },
+    assets: ["./src/assets/fonts/"],
 };

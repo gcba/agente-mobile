@@ -61,8 +61,8 @@ const CredentialAbstract: FC<CredentialAbstractProps> = ({ remove, children, cre
                 borderColor: validateDate(data?.expirationDate)
                     ? 'red'
                     : !credentialStyles?.background?.color
-                    ? transparentize(0.2, theme.color.tertiary)
-                    : 'transparent',
+                        ? transparentize(0.2, theme.color.tertiary)
+                        : 'transparent',
                 height: data ? (minimal ? 'auto' : Dimensions.get('window').width * 0.4) : 'auto',
             }}
             color={transparentize(0.8, theme.color.tertiary)}
@@ -76,11 +76,12 @@ const CredentialAbstract: FC<CredentialAbstractProps> = ({ remove, children, cre
                         left: 0,
                         right: 0,
                         bottom: 0,
-                        borderRadius: 5,
+                        borderRadius: 10,
                         zIndex: 2,
+                        backgroundColor: 'white'
                     }}
                     source={{
-                        uri: credentialStyles.hero.uri,
+                        uri: credentialStyles.hero.uri , cache: 'force-cache'
                     }}
                 />
             )}
@@ -96,7 +97,7 @@ const CredentialAbstract: FC<CredentialAbstractProps> = ({ remove, children, cre
                 >
                     {credentialStyles?.thumbnail?.uri && (
                         <ImageStyled
-                            source={{ uri: logo.enabled ? credentialStyles?.thumbnail?.uri : 'https://i.ibb.co/Krv9jRg/Quark-ID-iso.png' }}
+                            source={{ uri: logo.enabled ? credentialStyles?.thumbnail?.uri : 'https://i.ibb.co/Krv9jRg/Quark-ID-iso.png', cache: 'force-cache' }}
                             style={{ height: 35, width: 35, marginRight: 10 }}
                             resizeMode="contain"
                             onLoad={(e) => {
@@ -138,8 +139,8 @@ const CredentialAbstract: FC<CredentialAbstractProps> = ({ remove, children, cre
                                 >
                                     {data
                                         ? i18n.t('acceptCredentialsScreen.expiration') +
-                                          ': ' +
-                                          new Date(data?.expirationDate).toLocaleDateString(Localization.locale.slice(0, 2))
+                                        ': ' +
+                                        new Date(data?.expirationDate).toLocaleDateString(Localization.locale.slice(0, 2))
                                         : i18n.t('presentCredentialsScreen.message')}
                                 </Expiration>
                             )}
@@ -155,12 +156,13 @@ const CredentialAbstract: FC<CredentialAbstractProps> = ({ remove, children, cre
                     }}
                 >
                     {data && (
-                        <Row>
-                            <ViewStyled style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+                        <ViewStyled style={{ flexDirection: 'row', alignItems: 'center', padding:5}}>
+                            <ViewStyled style={{ backgroundColor: 'white', borderRadius: 100, height: 35, width: 35, alignItems: 'center', justifyContent: 'center' }}>
                                 <ImageStyled
-                                    source={{ uri: logo.enabled ? credentialStyles?.thumbnail?.uri : 'https://i.ibb.co/Krv9jRg/Quark-ID-iso.png' }}
-                                    style={{ height: 35, width: 35, marginRight: 10 }}
+                                    source={{ uri: logo.enabled ? credentialStyles?.thumbnail?.uri : 'https://i.ibb.co/Krv9jRg/Quark-ID-iso.png', cache: 'force-cache' }}
+                                    style={{ height: 25, width: 25 }}
                                     resizeMode="contain"
+                                    cac
                                     onError={(e) => {
                                         setLogo((logo) => ({
                                             ...logo,
@@ -168,54 +170,55 @@ const CredentialAbstract: FC<CredentialAbstractProps> = ({ remove, children, cre
                                         }));
                                     }}
                                 />
-
+                            </ViewStyled>
+                            <ViewStyled style={{ marginLeft: 10}}>
                                 <Title
                                     style={{
+                                        fontFamily:'Manrope-Bold',
+                                        ...theme?.font.subtitle,
+                                        color: theme.color.secondary ||'black',
+                                        width:'100%'
+                                    }}
+                                    ellipsizeMode={'tail'}
+                                    numberOfLines={1}
+                                    
+                                >
+                                    {data ? formatField(data, display?.title) || '' : i18n.t('presentCredentialsScreen.empty')}
+                                </Title>
+                                <Title
+                                    style={{
+                                        fontFamily:'Manrope-Regular',
                                         ...theme?.font.subtitle,
                                         color: credentialStyles?.text?.color || 'black',
-                                        flex: 0.75,
-                                        textAlign: 'right',
+                                        fontSize:13,
+                                        width:'100%'
                                     }}
                                     ellipsizeMode={'tail'}
                                     numberOfLines={1}
                                 >
-                                    {data?.issuer?.name || data?.issuer?.id || data?.issuer}
+                                    {data ? formatField(data, display?.subtitle) : null}
                                 </Title>
                             </ViewStyled>
-                        </Row>
+                        </ViewStyled>
                     )}
-
-                    <Row>
-                        <Title
+                    {data?.expirationDate && (
+                        <Expiration
                             style={{
-                                ...theme?.font.subtitle,
+                                ...theme?.font.text,
                                 color: credentialStyles?.text?.color || 'black',
                             }}
                             ellipsizeMode={'tail'}
                             numberOfLines={1}
                         >
-                            {data ? formatField(data, display?.title) || '' : i18n.t('presentCredentialsScreen.empty')}
-                        </Title>
+                            {data
+                                ? i18n.t('acceptCredentialsScreen.expiration') +
+                                ': ' +
+                                new Date(data?.expirationDate).toLocaleDateString(Localization.locale.slice(0, 2))
+                                : i18n.t('presentCredentialsScreen.message')}
+                        </Expiration>
+                    )}
 
-                        {data?.expirationDate && (
-                            <Expiration
-                                style={{
-                                    ...theme?.font.text,
-                                    color: credentialStyles?.text?.color || 'black',
-                                }}
-                                ellipsizeMode={'tail'}
-                                numberOfLines={1}
-                            >
-                                {data
-                                    ? i18n.t('acceptCredentialsScreen.expiration') +
-                                      ': ' +
-                                      new Date(data?.expirationDate).toLocaleDateString(Localization.locale.slice(0, 2))
-                                    : i18n.t('presentCredentialsScreen.message')}
-                            </Expiration>
-                        )}
-
-                        {validateDate(data?.expirationDate) && <Expired>{i18n.t('expired')}</Expired>}
-                    </Row>
+                    {validateDate(data?.expirationDate) && <Expired>{i18n.t('expired')}</Expired>}
                 </Wrapper>
             )}
             <Children
@@ -224,7 +227,7 @@ const CredentialAbstract: FC<CredentialAbstractProps> = ({ remove, children, cre
                     bottom: minimal ? 'auto' : 15,
                 }}
             >
-                {children || defaultChildren}
+                {children}
             </Children>
         </Container>
     );
@@ -241,9 +244,7 @@ const ViewStyled = styled.View``;
 const Wrapper = styled.View`
     width: 100%;
     height: 100%;
-    position: relative;
     flex: 1;
-    justify-content: space-between;
 `;
 const Children = styled.View`
     position: absolute;
@@ -257,7 +258,6 @@ const Row = styled.View`
 `;
 
 const Title = styled.Text`
-    font-weight: bold;
 `;
 
 const Expired = styled.Text`
@@ -275,7 +275,7 @@ const Container = styled.TouchableOpacity`
     align-items: center;
     position: relative;
     padding: 15px 15px;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 100%;
     opacity: ${(props) => (props.expired ? 0.8 : 1)};
     position: relative;

@@ -53,7 +53,6 @@ const PinItems: FC<PinItemsProps> = ({ length, value, color, textColor = 'white'
             >
                 <PinItemsWrapper>{createPinItems()}</PinItemsWrapper>
             </AnimatedViewStyled>
-            <PinText color={textColor}>{i18n.t('enterPin')}</PinText>
         </PinWrapper>
     );
 };
@@ -80,9 +79,9 @@ interface PinItemProps {
     color: string;
 }
 const PinItem = styled.View<PinItemProps>`
-    height: 13px;
-    width: 13px;
-    border-radius: 15px;
+    height: 16px;
+    width: 16px;
+    border-radius: 16px;
     background-color: ${(props: PinItemProps) => (props.active ? transparentize(0, props.color) : transparentize(0.8, props.color))};
     margin: 10px;
     transition: 0.1s ease-in-out;

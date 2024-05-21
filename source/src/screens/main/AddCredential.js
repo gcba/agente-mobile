@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 import { transparentize } from 'polished';
@@ -12,9 +12,13 @@ import { shallow } from 'zustand/shallow';
 import Button from '../../components/Button';
 import EntityItem from '../../components/EntityItem';
 import { useApplicationStore } from '../../contexts/useApplicationStore';
+import ListLayout from '../../components/ListLayout';
+import ScanIcon from '../../assets/icons/ScanIcon';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 const AddCredential = ({ navigation }) => {
     const theme = useTheme();
+    const [btnPress, isBtnPress] = useState(false);
     const { entities } = useApplicationStore(
         (state) => ({
             entities: state.entities,
@@ -28,13 +32,12 @@ const AddCredential = ({ navigation }) => {
             contentStyle={{
                 paddingBottom: 30,
                 paddingTop: 10,
+                alignItems: 'center'
             }}
-            onlyTitle
-            bottomTab={false}
+            backText={false}
             onBack={() => navigation.goBack()}
         >
-            <Container>
-                <Text
+            {/* <Text
                     style={{
                         textAlign: 'center',
                         marginTop: 10,
@@ -42,33 +45,36 @@ const AddCredential = ({ navigation }) => {
                     }}
                 >
                     {i18n.t('addCredentialScreen.entityTitle')}
-                </Text>
+                </Text> */}
 
-                <List
-                    showsVerticalScrollIndicator={true}
-                    data={entities}
-                    numColumns={2}
-                    columnWrapperStyle={{
-                        justifyContent: 'space-between',
-                        width: '100%',
-                        height: '100%',
-                    }}
-                    EmptyComponent={() => (
-                        <>
-                            <FontAwesome name="building" size={50} color={transparentize(0.5, 'black')} />
-                            <Text style={{ color: transparentize(0.5, 'black') }}>{i18n.t('entitiesScreen.empty')}</Text>
-                        </>
-                    )}
-                    contentContainerStyle={{
-                        paddingHorizontal: 20,
-                        paddingVertical: 10,
-                        paddingTop: 15,
-                        width: '100%',
-                    }}
-                    RenderItemComponent={({ item }) => <EntityItem data={item} navigation={navigation} />}
-                />
+            <ListLayout
+                title={i18n.t('addCredentialScreen.entityTitle')}
+                showsVerticalScrollIndicator={true}
+                data={entities}
+                numColumns={2}
+                columnWrapperStyle={{
+                    justifyContent: 'space-between',
+                    width: '100%',
+                    height: '100%',
+                }}
+                EmptyComponent={() => (
+                    <>
+                        <FontAwesome name="building" size={50} color={transparentize(0.5, 'black')} />
+                        <Text style={{ color: transparentize(0.5, 'black') }}>{i18n.t('entitiesScreen.empty')}</Text>
+                    </>
+                )}
+                contentContainerStyle={{
+                    paddingHorizontal: 20,
+                    paddingVertical: 10,
+                    paddingTop: 15,
+                    width: '100%',
+                }}
+                RenderItemComponent={({ item }) => <EntityItem data={item} navigation={navigation} />}
+            />
 
-                <Text
+
+            <ButtonsWrapper style={{ position: 'absolute', bottom: 50 }}>
+                <Texto
                     style={{
                         textAlign: 'center',
                         marginBottom: 10,
@@ -77,9 +83,17 @@ const AddCredential = ({ navigation }) => {
                     }}
                 >
                     {i18n.t('addCredentialScreen.scanTitle')}
-                </Text>
+                </Texto>
+                <SendButton onPress={() => navigation.navigate('Scan')}
+                    onShowUnderlay={() => isBtnPress(true)} onHideUnderlay={() => isBtnPress(false)} theme={theme}>
+                    <ViewStyled >
+                        <ScanIcon name="scan" size={22} color={theme.color.primary} />
+                        <Texto style={{ color: theme.color.primary, marginLeft: 5 }} btnPressed={btnPress}>{i18n.t('credentialsScreen.add')}</Texto>
+                    </ViewStyled>
+                </SendButton>
+            </ButtonsWrapper>
 
-                <ButtonWrapper>
+            {/* <ButtonWrapper>
                     <Button
                         backgroundColor={theme.color.secondary}
                         onPress={() => navigation.navigate('Scan')}
@@ -104,8 +118,7 @@ const AddCredential = ({ navigation }) => {
                             </Text>
                         </View>
                     </Button>
-                </ButtonWrapper>
-            </Container>
+                </ButtonWrapper> */}
         </BasicLayout>
     );
 };
@@ -113,7 +126,37 @@ const AddCredential = ({ navigation }) => {
 const Container = styled.View`
     align-items: center;
     width: 100%;
-    height: 100%;
+    justify-content: space-between;
+`;
+
+const ViewStyled = styled.View`
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`;
+
+const ButtonsWrapper = styled.View`
+align-items: center;
+`
+
+const Texto = styled.Text`
+    text-align: center;
+    font-family: Manrope-Bold;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 20px;
+    letter-spacing: 0.32px;
+`
+
+const SendButton = styled(TouchableHighlight)`
+display: flex;
+height: 52px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+width: ${Dimensions.get('window').width - 64}px;
+border-radius: 50px;
+background: #404267;
 `;
 
 const ButtonWrapper = styled.View`

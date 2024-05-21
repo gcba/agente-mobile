@@ -1,9 +1,8 @@
 import { transparentize } from 'polished';
 import React, { FC, useState } from 'react';
 import { CSSProperties } from 'styled-components';
-import styled from 'styled-components/native';
 import keys from '../utils/keys';
-
+import styled, { useTheme } from 'styled-components/native';
 interface NumberPadProps {
     maxLength?: number;
     value: string;
@@ -15,7 +14,7 @@ interface NumberPadProps {
 
 const NumberPad: FC<NumberPadProps> = ({ maxLength = 10, value, setValue, fingerPrint = false, authenticate, style }) => {
     const [width, setWidth] = useState(0);
-
+    const theme = useTheme();
     return (
         <KeysWrapper
             onLayout={(event) => {
@@ -41,7 +40,7 @@ const NumberPad: FC<NumberPadProps> = ({ maxLength = 10, value, setValue, finger
                                 : null;
                         }}
                     >
-                        {typeof key === 'string' ? <KeyText>{key}</KeyText> : key.type !== 'finger-print' || fingerPrint ? key.content : null}
+                        {typeof key === 'string' ? <KeyText style={{color: theme.color.secondary}}>{key}</KeyText> : key.type !== 'finger-print' || fingerPrint ? key.content : null}
                     </KeyWrapper>
                 </KeyContainer>
             ))}
@@ -54,7 +53,7 @@ const KeysWrapper = styled.View`
     position: relative;
     flex-wrap: wrap;
     width: 90%;
-    gap: 20px;
+    gap: 40px;
 `;
 
 interface KeyWrapperProps {
@@ -64,7 +63,6 @@ interface KeyWrapperProps {
 const KeyWrapper = styled.TouchableOpacity<KeyWrapperProps>`
     width: 100%;
     height: 100%;
-    background-color: ${(props: KeyWrapperProps) => (props.disabled ? 'transparent' : transparentize(0.7, 'black'))};
     justify-content: center;
     align-items: center;
     border-radius: 5px;
@@ -74,13 +72,14 @@ const KeyContainer = styled.TouchableOpacity`
     position: relative;
     padding: 1%;
     width: 33%;
-    height: 60px;
+    height: 48px;
+    margin-bottom: 40px;
 `;
 
 const KeyText = styled.Text`
     text-align: center;
-    color: white;
-    font-size: 20px;
+    font-size: 32px;
+    font-family: RobotoMono-Regular;
 `;
 
 export default NumberPad;

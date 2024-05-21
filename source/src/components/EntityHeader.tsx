@@ -1,7 +1,8 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { relative } from 'path';
 import { transparentize } from 'polished';
 import React, { FC } from 'react';
-import styled from 'styled-components/native';
+import styled, {useTheme} from 'styled-components/native';
 
 interface EntityHeaderProps {
     setHeaderHeight?: (height: string) => void;
@@ -9,6 +10,7 @@ interface EntityHeaderProps {
 }
 
 const EntityHeader: FC<EntityHeaderProps> = ({ setHeaderHeight, entityStyles }) => {
+    const theme = useTheme()
     return (
         <Container
             onLayout={(event) => {
@@ -16,18 +18,7 @@ const EntityHeader: FC<EntityHeaderProps> = ({ setHeaderHeight, entityStyles }) 
                 setHeaderHeight && setHeaderHeight(height.toFixed(0));
             }}
         >
-            <ImageStyled
-                source={{
-                    uri: entityStyles?.hero?.uri,
-                }}
-                style={{
-                    width: '100%',
-                    height: 100,
-                    position: 'relative',
-                }}
-                resizeMode="cover"
-            />
-            <LinearGradient
+            {/* <LinearGradient
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -43,33 +34,31 @@ const EntityHeader: FC<EntityHeaderProps> = ({ setHeaderHeight, entityStyles }) 
                 }
                 start={{ x: 1, y: 1 }}
                 end={{ x: 0, y: 0 }}
-            />
+            /> */}
 
-            <ImageBackground
-                style={{
-                    zIndex: 2,
-                }}
-            >
+            <ViewStyled style={{backgroundColor:entityStyles?.background?.color || theme.color.secondary, width:150, height:150, borderRadius:100, justifyContent:'center', alignItems:'center'}}>
                 <ImageStyled
                     source={{
-                        uri: entityStyles?.thumbnail?.uri || 'https://upload.wikimedia.org/wikipedia/commons/c/c6/No_Logo.png',
+                        uri: entityStyles?.thumbnail?.uri || 'https://upload.wikimedia.org/wikipedia/commons/c/c6/No_Logo.png', cache: 'force-cache'
                     }}
                     style={{
-                        width: '100%',
-                        height: '100%',
+                        width: '50%',
+                        height: '50%',
                     }}
                     resizeMode="contain"
                 />
-            </ImageBackground>
+            </ViewStyled>
         </Container>
     );
 };
 
 const ImageStyled = styled.Image``;
 
+const ViewStyled = styled.View``;
+
 const Container = styled.View`
     width: 100%;
-    position: relative;
+    margin:50px 0 20px 0;
     justify-content: center;
     align-items: center;
 `;

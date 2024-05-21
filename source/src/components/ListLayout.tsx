@@ -1,4 +1,4 @@
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Entypo } from '@expo/vector-icons';
 import React, { FC } from 'react';
 import { Platform } from 'react-native';
 import { CSSProp } from 'styled-components';
@@ -12,12 +12,18 @@ interface ListLayoutProps {
     data: any[];
     onPressButton?: () => void;
     onPressItem?: (item: any) => void;
-    RenderItemComponent: React.FC<any>;
+    RenderItemComponent: any;
     EmptyComponent?: React.FC<any>;
     contentContainerStyle?: any;
     showsVerticalScrollIndicator?: boolean;
     numColumns?: number;
     columnWrapperStyle?: CSSProp;
+    ItemSeparatorComponent?: React.FC<any>;
+    ListFooterComponent?: React.FC<any>;
+    ListHeaderComponent?: React.FC<any>;
+    extraData?: any;
+    maxToRenderPerBatch?: number;
+    windowSize?: number;
 }
 
 const ListLayout: FC<ListLayoutProps> = ({
@@ -31,24 +37,25 @@ const ListLayout: FC<ListLayoutProps> = ({
     contentContainerStyle,
     ...props
 }) => {
-    const theme = useTheme();
+    const theme = useTheme();    
     return (
         <>
             {(title || headerButton) && (
                 <HeaderWrapper>
                     {title && (
-                        <HeaderText numberOfLines={1} ellipsizeMode="tail">
+                        <HeaderText style={{color: theme.color.secondary}} numberOfLines={2} ellipsizeMode="tail">
                             {title}
                         </HeaderText>
                     )}
-                    {onPressButton && (
+                    {onPressButton && data.length > 0 && (
                         <HeaderButton
                             onPress={() => {
                                 onPressButton();
                             }}
+                            style={{backgroundColor: theme.color.secondary}}
                         >
-                            <AntDesignStyled name="plus" size={15} color={theme.color.secondary} style={{ marginRight: 8 }} />
-                            <HeaderButtonText style={{ color: theme.color.secondary }}>{i18n.t('add')}</HeaderButtonText>
+                            <EntypoStyled name="plus" size={15} color={theme.color.primary} />
+                            {/* <HeaderButtonText style={{ color: theme.color.secondary }}>{i18n.t('add')}</HeaderButtonText> */}
                         </HeaderButton>
                     )}
                 </HeaderWrapper>
@@ -59,12 +66,12 @@ const ListLayout: FC<ListLayoutProps> = ({
                 RenderItemComponent={RenderItemComponent}
                 onPressItem={onPressItem}
                 contentContainerStyle={{
-                    paddingHorizontal: 15,
+                    paddingHorizontal: 32,
                     paddingBottom: Platform.OS === 'android' ? 20 : 40,
                     ...contentContainerStyle,
                 }}
                 style={{
-                    paddingTop: title || headerButton ? 0 : 10,
+                    paddingTop: title || headerButton ? 0 : 0,
                 }}
                 {...props}
             />
@@ -72,29 +79,31 @@ const ListLayout: FC<ListLayoutProps> = ({
     );
 };
 
-const AntDesignStyled = styled(AntDesign)``;
+const EntypoStyled = styled(Entypo)``;
 
 const HeaderWrapper = styled.View`
     width: 100%;
     flex-direction: row;
     align-items: center;
-    padding: 16px;
-    height: 60px;
-    justify-content: space-between;
+    justify-content: center;
 `;
 
 const HeaderText = styled.Text`
-    font-size: 17px;
-    max-width: 80%;
-    font-weight: bold;
-    color: black;
+    font-size: 20px;
+    text-align: center
+    line-height: 25px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    font-family: Manrope-Bold;
 `;
 
 const HeaderButton = styled.TouchableOpacity`
-    padding: 5px 0px;
-    border-radius: 4px;
-    flex-direction: row;
-    align-items: center;
+    padding: 5px;
+    border-radius: 50px;
+    
+    position: absolute;
+    right: 20;
+    
 `;
 
 const HeaderButtonText = styled.Text`

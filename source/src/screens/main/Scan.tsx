@@ -2,6 +2,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import styled from 'styled-components/native';
 import { shallow } from 'zustand/shallow';
+import * as WebBrowser from 'expo-web-browser';
 import i18n from '../../locale';
 
 // Components
@@ -12,6 +13,7 @@ import { transparentize } from 'polished';
 import { Alert, BackHandler, Platform, StatusBar, StyleSheet, Vibration } from 'react-native';
 import { useApplicationStore } from '../../contexts/useApplicationStore';
 import { ContainerLayout, Layout } from '../../styled-components/Layouts';
+import validator from 'validator';
 
 const Scan = ({ navigation }) => {
     const [type] = useState(CameraType.back);
@@ -38,9 +40,23 @@ const Scan = ({ navigation }) => {
         try {
             console.info('QR Scanner:', data);
             setIsLoading(true);
-            await processMessage({
-                message: data,
-            });
+            if (validator.isURL(data, {protocols: ['http', 'https']})) {
+                Alert.alert(i18n.t('scanScreen.urlTitle') + data, i18n.t('scanScreen.urlDescription'), [
+                    {
+                        text: i18n.t('accept'),
+                        onPress: async () => {
+                            WebBrowser.openBrowserAsync(data);
+                        },
+                    },
+                    {
+                        text: i18n.t('cancel')
+                    },
+                ])
+            } else {
+                await processMessage({
+                    message: data,
+                });
+            }
             Vibration.vibrate(200);
             Platform.OS === 'android' && StatusBar.setHidden(false);
         } catch (error) {

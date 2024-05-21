@@ -28,11 +28,13 @@ const Waiting: FC<WaitingProps> = ({ message, closeConnection }) => {
                     ])
                 }
             >
-                <AntDesign name="close" size={24} color="white" />
+                <AntDesignStyled name="close" size={24} color="white" />
             </CloseIconWrapper>
         </Container>
     );
 };
+
+const AntDesignStyled = styled(AntDesign)``;
 
 const ViewStyled = styled.View``;
 

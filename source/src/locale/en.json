@@ -4,7 +4,7 @@
     "previous": "Previous",
     "done": "Done",
     "step": "Step",
-    "new": "New",
+    "new": "NEW",
     "add": "Add",
     "accept": "Accept",
     "reject": "Reject",
@@ -23,10 +23,24 @@
     "closeConnectionMessage": "Are you sure you want to close the connection?",
     "continue": "Continue",
     "skip": "Skip",
+    "Error": "Error",
+    "more": "See more",
+    "loading": {
+        "processing": "Processing...",
+        "message": "This may take a second"
+    },
+    "today":"Today",
+    "lastWeek":"Last 7 Days",
+    "before": "Before",
+    "tutorial": {
+        "introTitle": "Safely store your credentials on your phone"
+    },
     "pinStack": {
-        "createPin": "Create your PIN",
-        "confirmPin": "Confirming your PIN",
-        "welcome": "Welcome",
+        "continue": "Start",
+        "createPin": "Create PIN",
+        "confirmPin": "Confirm PIN",
+        "description": "Passcode must be 8 digits",
+        "welcome": "Access to buildings, offices and events",
         "welcomeMessage": "You must create a security PIN to continue"
     },
     "introductionStack": {
@@ -34,11 +48,11 @@
         "start": "Let's get started"
     },
     "didStack": {
-        "createDid": "Create a decentralized ID on this device",
+        "createDid": "Create your account",
         "loadingTitle": "Publishing your DID",
         "loadingDid": "Your Decentrilized ID is being published, this may take a few minutes, you can close the app and come back later",
-        "haveDid": "If you already have a decentralized ID you can import it",
-        "create": "Create your DID",
+        "haveDid": "Or import your data",
+        "create": "Create",
         "import": "Import data",
         "success": "Success",
         "createdDid": "Your decentralized ID has been successfully created",
@@ -56,7 +70,7 @@
         "notifications": "Notifications",
         "notificationsMessage": "Here you can see the notifications that you have received",
         "entities": "Entities",
-        "entitiesMessage": "Here you can see the entities that you have connected to, you can also add new entities",
+        "entitiesMessage": "View authorized entities that can issue credentials here",
         "credentials": "Credentials",
         "credentialsMessage": "This is your wallet. You can store, add and delete your credentials here",
         "scanMessage": "Scan a QR code to add a new credential"
@@ -79,27 +93,111 @@
     "settingsScreen": {
         "title": "Settings",
         "export": {
-            "title": "Export data",
-            "description": "Export your data to a file"
+            "title": "Backup your data",
+            "description": "Safeguard your keys on your device",
+            "btn1": "E-mail",
+            "btn2": "Send"
         },
         "share": {
             "title": "Share your DID",
-            "description": "Share your DID with others"
+            "semiTitle": "Share DID",
+            "description": "Control your identity, share carefully",
+            "btn": "Copy",
+            "sharebtn": "Share"
         },
         "reset": {
-            "title": "Reset application",
-            "description": "This will reset all application data",
-            "message": "Are you sure you want to reset the application?",
+            "title": "Reset app",
+            "fullTitle": "Restore aplication",
+            "semiTitle": "Restore initial settings",
+            "description": "This will delete all your data",
+            "btn": "Restore",
+            "popupTitle": "Are you sure?",
+            "message1": "Restore means the deletion of data, DID, keys, verifiable credentials, configurations, preferences, and any other modifications you have made",
+            "message2": ["Resetting the app will delete all your data. This cannot be undone.", "We recommend you make a backup before proceeding."],
             "ok": "Reset"
         },
         "config": {
             "title": "Configuration",
             "description": "Configure the application"
+        },
+        "terms": {
+            "title": "Terms",
+            "items": [
+                {
+                    "title": "Lorem ipsum",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc."
+                },
+                {
+                    "title": "Sed aliquam semper",
+                    "description": [
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc.",
+                        "Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc posuer."
+                    ]
+                }
+            ]
+        },
+        "privacy": {
+            "title": "Privacy Policy",
+            "items": [
+                {
+                    "title": "Lorem ipsum",
+                    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc."
+                },
+                {
+                    "title": "Sed aliquam semper",
+                    "description": [
+                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc.",
+                        "Sed malesuada turpis id venenatis pretium. Sed aliquam semper dui, at gravida nisl vestibulum vel. Fusce efficitur feugiat molestie. Nunc vel ligula ut lacus consequat pellentesque. Mauris cursus volutpat velit, feugiat lobortis nunc posuer."
+                    ]
+                }
+            ]
+        },
+        "faq": {
+            "title": "FAQs",
+            "moreInfo": "For more information you can see the",
+            "questions": [
+                {
+                    "title": "What is decentralized identity?",
+                    "description": "Decentralized identity is a concept in which individuals have the power to own, control, and securely share their own identity data autonomously through technologies like cryptography and blockchain, avoiding reliance on centralized intermediaries. This allows for greater privacy and control over personal information in digital environments."
+                },
+                {
+                    "title": "Is it safe to share my DID?",
+                    "description": "Yes, sharing your DID (Decentralized Identifier) in an environment that supports decentralized identity is generally considered safe. DIDs are designed to give users control over their own identity and personal data, which means you decide when and with whom you share your DID and associated data."
+                },
+                {
+                    "title": "What does key rotation imply?",
+                    "description": "Key rotation associated with a DID (Decentralized Identifier) document involves changing the cryptographic keys linked to the DID and used to establish a user's online identity and secure interactions. Changing the keys periodically reduces the risk of the keys being compromised and used to access personal data or carry out unauthorized actions."
+                },
+                {
+                    "title": "Why do I need to export my keys?",
+                    "description": "The export keys function does the following: it collects both the public and private keys, the mnemonic (a set of words representing your secret key), and the associated DID (Decentralized Identifier). It then creates a file containing all this important information. You have control to decide where you want to save this file on your device. This feature provides you with a secure way to back up and transport your essential identity and cryptographic data for use on other devices or in recovery situations."
+                },
+                {
+                    "title": "What does Restoring the application imply?",
+                    "description": "'Restoring the application' or 'Restoring to default settings' implies that all the changes and customizations you have made in the application will be erased, and the application will revert to its original state as it was when you first installed it. This includes the removal of data, DID, keys, verifiable credentials, settings, preferences, and any other modifications you have made. Please note that this action cannot be undone, so we recommend making a backup of your important information before proceeding."
+                },
+                {
+                    "title": "How does an identity wallet work?",
+                    "description": "An identity wallet is a tool that enables users to securely store, protect, and control their digital identity data. Users can selectively share this information online, prove their identity, and maintain their privacy, all while having the portability to take their digital identity to different services and applications. This reduces the dependence on centralized intermediaries for identity management."
+                },
+                {
+                    "title": "What advantages does decentralized identity offer?",
+                    "description": "Decentralized identity offers advantages such as greater control and privacy over identity data, security, portability, interoperability, and fraud reduction, empowering users by eliminating the reliance on centralized intermediaries."
+                }
+            ]
         }
+    },
+    "errorScreen": {
+        "title": "Error 2354",
+        "description": "Text explaining the error",
+        "btn1": "Support",
+        "btn2": "Go to wallet"
     },
     "scanScreen": {
         "title": "Scan QR",
-        "error": "Error scanning QR code"
+        "error": "Error scanning QR code",
+        "urlTitle": "You are being redirected to: ",
+        "urlDescription": "Do you want to continue?"
     },
     "configurationScreen": {
         "title": "Configuration"
@@ -114,7 +212,8 @@
         "button": "Connect",
         "name": "Name",
         "description": "Description",
-        "website": "Redirect"
+        "website": "Redirect",
+        "contact": "Contact"
     },
     "addCredentialScreen": {
         "title": "Add a credential",
@@ -137,6 +236,7 @@
         "expiration": "Expiration",
         "accept": "Accept",
         "reject": "Reject credentials",
+        "addTitle": "is sharing this information",
         "rejectDescription": "Are you sure you want to reject these credentials?"
     },
     "verificationResultScreen": {
@@ -153,13 +253,16 @@
         "expiration": "Expiración",
         "accept": "Present",
         "emit": "wants to emit these credentials",
-        "present": "You need to present the following credentials:",
+        "present": "You need to present the following credentials",
+        "create": "Create",
+        "createTitle": "Create IDs",
+        "presentTitle": "Show IDs",
         "reject": "Reject credentials",
         "rejectDescription": "Are you sure you want to reject these credentials?"
     },
     "notifications": {
         "didCreated": {
-            "title": "Your DID is ready ✅",
+            "title": "Your DID is ready",
             "body": "Your DID is ready, you can now use the application"
         },
         "issueCredential": {
@@ -173,6 +276,14 @@
         "requestPresentation": {
             "title": "Request presentation",
             "body": "The presentation of a credential is required"
+        },
+        "pdfArrived": {
+            "title": "You received a pdf message",
+            "body": "Accept or Decline the message"
+        },
+        "textArrived": {
+            "title": "You received a text message",
+            "body": "Accept or Decline the message"
         },
 
         "presentationAck": {

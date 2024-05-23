@@ -66,8 +66,8 @@ yarn postinstall
 ```
 
 - Modificar:
-El archivo: node_modules\react-native-os\android\build.gradle 
-Linea 47: cambiar la 'compilation' por 'implentation'
+- El archivo: node_modules\react-native-os\android\build.gradle 
+- Linea 47: cambiar la 'compilation' por 'implementation'
 
 > [!TIP]
 > Si usted visualiza este error, sepa que estas dependencias son opcionales. @mattrglobal/node-bbs-signatures es una dependencia opcional. 

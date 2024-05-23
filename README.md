@@ -69,6 +69,14 @@ yarn postinstall
 El archivo: node_modules\react-native-os\android\build.gradle 
 Linea 47: cambiar la 'compilation' por 'implentation'
 
+> [!TIP]
+> Si usted visualiza este error, sepa que estas dependencias son opcionales. @mattrglobal/node-bbs-signatures es una dependencia opcional. 
+> ```bash
+> warning Error running install script for optional dependency: "/Users/X/Desktop/projects/quark2/agente-mobile/source/node_modules/@extrimian/vc-verifier/node_modules/@mattrglobal/node-bbs-signatures: Command failed.
+> ```
+> Puede proceder con el comando $ yarn postinstall.
+
+
 ## Variables de Entorno
 
 - Configura tus variables en el archivo /source/src/config/agent.ts
